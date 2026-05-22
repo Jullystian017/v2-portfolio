@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
+import CustomCursor from "@/components/ui/custom-cursor";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -229,6 +230,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#050506] text-[#f3f4f6] font-sans selection:bg-teal-500/30 selection:text-teal-200 relative overflow-x-hidden flex flex-col">
+      <CustomCursor />
 
       {/* FLOW ART - wraps only Hero and About */}
       <FlowArt aria-label="Jullystian Portfolio Presentation" className="relative z-20 flex-1">
@@ -271,7 +273,7 @@ export default function Home() {
             <div className="flex items-center">
               <button
                 onClick={() => setIsMenuOpen(true)}
-                className="text-white text-sm font-sans tracking-wide hover:opacity-80 transition-all px-6 py-2 border border-white/20 rounded-none bg-transparent cursor-pointer font-light"
+                className="text-white text-sm font-sans tracking-wide hover:bg-white hover:text-black hover:border-white transition-all duration-300 px-6 py-2 border border-white/20 rounded-lg bg-transparent cursor-pointer font-light"
               >
                 menu
               </button>
@@ -288,8 +290,36 @@ export default function Home() {
             {/* Main Hero Layout Row - Flex container containing title */}
             <div className="w-full flex flex-col lg:flex-row lg:items-end">
 
-              {/* Title */}
-              <div className="pl-16 sm:pl-20 md:pl-24">
+              {/* Title Container */}
+              <div className="pl-16 sm:pl-20 md:pl-24 relative w-full">
+                {/* Absolute Socials stacked vertically, perfectly centered relative to the title's vertical height */}
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-6 z-30">
+                  <a
+                    href="https://dribbble.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-400 hover:text-white transition-colors duration-300"
+                  >
+                    <DribbbleIcon className="h-5.5 w-5.5" />
+                  </a>
+                  <a
+                    href="https://behance.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-400 hover:text-white transition-colors duration-300"
+                  >
+                    <BehanceIcon className="h-5.5 w-5.5" />
+                  </a>
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-400 hover:text-white transition-colors duration-300"
+                  >
+                    <LinkedInIcon className="h-5.5 w-5.5" />
+                  </a>
+                </div>
+
                 <h1 className="font-instrument font-medium text-[11vw] sm:text-[8vw] lg:text-[7.5vw] leading-[0.98] tracking-tighter text-white select-none">
                   <span className="inline-block opacity-0 animate-hero-text [animation-delay:250ms]">
                     Designing
@@ -316,34 +346,6 @@ export default function Home() {
               </div>
 
             </div>
-
-            {/* Absolute Socials stacked vertically, aligned with the left edge of container */}
-            <div className="absolute left-0 bottom-12 sm:bottom-20 flex flex-col items-center gap-6 pb-2.5 z-30">
-              <a
-                href="https://dribbble.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors duration-300"
-              >
-                <DribbbleIcon className="h-5.5 w-5.5" />
-              </a>
-              <a
-                href="https://behance.net"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors duration-300"
-              >
-                <BehanceIcon className="h-5.5 w-5.5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors duration-300"
-              >
-                <LinkedInIcon className="h-5.5 w-5.5" />
-              </a>
-            </div>
           </section>
         </div>
 
@@ -352,50 +354,88 @@ export default function Home() {
 
       {/* FULL SCREEN GLASSMORPHIC MENU DRAWER */}
       <div
-        className={`fixed inset-0 z-50 bg-black/45 backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-          }`}
+        className={`fixed inset-0 z-50 bg-black/60 backdrop-blur-3xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+        }`}
       >
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between">
+        {/* Soft, highly blurred background mesh for the menu drawer */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none opacity-40">
+          <div className="absolute top-[20%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.15)_0%,transparent_70%)] blur-[100px] mix-blend-screen" />
+          <div className="absolute bottom-[20%] right-[20%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.12)_0%,transparent_70%)] blur-[120px] mix-blend-screen" />
+        </div>
+
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between relative z-10">
           <span className="font-instrument font-medium text-xl sm:text-2xl tracking-tight text-white/50">
             Jullystian<sup>®</sup>
           </span>
           <button
             onClick={() => setIsMenuOpen(false)}
-            className="flex items-center gap-2 text-white/60 hover:text-white transition-colors duration-300 font-sans tracking-widest uppercase text-xs p-2"
+            className="flex items-center gap-2 text-white/60 hover:text-white transition-all duration-300 font-sans tracking-widest uppercase text-xs px-4 py-2 border border-white/10 hover:border-white/30 rounded-lg bg-transparent cursor-pointer group active:scale-95"
           >
             <span>close</span>
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
           </button>
         </div>
 
         {/* Drawer Links */}
-        <div className="flex flex-col justify-center items-center h-[calc(100vh-12rem)] max-w-4xl mx-auto px-6">
-          <nav className="flex flex-col items-center gap-6 sm:gap-10 text-center">
+        <div className="flex flex-col justify-center items-center h-[calc(100vh-12rem)] w-full relative z-10">
+          <nav className="flex flex-col items-center w-full text-center">
             {[
-              { label: "Home", id: "home" },
-              { label: "Projects", id: "projects" },
-              { label: "Services", id: "services" },
-              { label: "Contact", id: "contact" }
+              { label: "Home", id: "home", gradient: "bg-gradient-to-r from-[#ec4899] via-[#f97316] to-[#f59e0b]" },
+              { label: "Projects", id: "projects", gradient: "bg-gradient-to-r from-[#06b6d4] via-[#0d9488] to-[#10b981]" },
+              { label: "Services", id: "services", gradient: "bg-gradient-to-r from-[#8b5cf6] via-[#d946ef] to-[#ec4899]" },
+              { label: "Contact", id: "contact", gradient: "bg-gradient-to-r from-[#f43f5e] via-[#e11d48] to-[#be123c]" }
             ].map((link, idx) => (
               <button
                 key={idx}
                 onClick={() => navigateTo(link.id)}
-                className="group relative font-instrument font-medium text-4xl sm:text-7xl text-zinc-500 hover:text-white transition-colors duration-500 ease-out py-1 block leading-none overflow-hidden"
+                className="group relative w-full py-4 sm:py-5 flex items-center justify-center overflow-hidden cursor-pointer active:scale-95 transition-all duration-300 border-y border-white/[0.01]"
               >
-                <span className="relative z-10">{link.label}</span>
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-teal-400 group-hover:w-full transition-all duration-500 ease-out" />
+                {/* Default Text (Centered) */}
+                <div className="relative z-10 font-instrument font-medium text-2xl sm:text-4xl lg:text-5xl text-zinc-500 group-hover:opacity-0 transition-opacity duration-300 flex items-center gap-2">
+                  <span>{link.label.toLowerCase()}</span>
+                  <sup className="text-[10px] font-mono text-zinc-700 ml-1">0{idx + 1}</sup>
+                </div>
+
+                {/* Hover State: Seamless Infinite Marquee */}
+                <div className="absolute inset-0 z-20 flex items-center overflow-hidden opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 bg-white">
+                  <div className="flex w-max animate-marquee">
+                    {/* Loop 1 */}
+                    <div className="flex items-center gap-10 sm:gap-16 lg:gap-24 px-5 sm:px-8 lg:px-12 shrink-0">
+                      {Array.from({ length: 4 }).map((_, i) => (
+                        <React.Fragment key={i}>
+                          <span className="font-instrument font-medium text-2xl sm:text-4xl lg:text-5xl text-black lowercase">
+                            {link.label.toLowerCase()}
+                          </span>
+                          <div className={`w-28 sm:w-48 lg:w-60 h-6 sm:h-9 lg:h-10 rounded-sm ${link.gradient}`} />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                    {/* Loop 2 (exact duplicate for seamless loop) */}
+                    <div className="flex items-center gap-10 sm:gap-16 lg:gap-24 px-5 sm:px-8 lg:px-12 shrink-0" aria-hidden="true">
+                      {Array.from({ length: 4 }).map((_, i) => (
+                        <React.Fragment key={i}>
+                          <span className="font-instrument font-medium text-2xl sm:text-4xl lg:text-5xl text-black lowercase">
+                            {link.label.toLowerCase()}
+                          </span>
+                          <div className={`w-28 sm:w-48 lg:w-60 h-6 sm:h-9 lg:h-10 rounded-sm ${link.gradient}`} />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </button>
             ))}
           </nav>
 
           <div className="mt-16 w-full max-w-xs border-t border-white/5 pt-8 flex justify-center gap-8">
-            <a href="https://dribbble.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+            <a href="https://dribbble.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
               <DribbbleIcon className="h-5 w-5" />
             </a>
-            <a href="https://behance.net" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+            <a href="https://behance.net" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
               <BehanceIcon className="h-5 w-5" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
               <LinkedInIcon className="h-5 w-5" />
             </a>
           </div>
@@ -423,16 +463,14 @@ export default function Home() {
               <span className="text-zinc-600">to life.</span>
             </h2>
 
-            {/* 2. Lowercase contact button bordered above and below */}
+            {/* 2. Lowercase contact button matching the outline menu button style */}
             <div className="mt-12 sm:mt-16 flex flex-col items-center select-none">
-              <div className="w-28 sm:w-36 h-[1px] bg-white/15" />
               <button
                 onClick={() => navigateTo("contact")}
-                className="py-3 px-6 text-xs sm:text-sm font-sans tracking-widest lowercase text-white hover:opacity-85 transition-all cursor-pointer flex items-center gap-1.5 font-light"
+                className="text-white text-xs sm:text-sm font-sans tracking-widest lowercase px-8 py-3.5 border border-white/20 rounded-lg bg-transparent hover:bg-white hover:text-black hover:border-white transition-all duration-300 cursor-pointer flex items-center gap-2 font-light"
               >
                 contact me <span className="text-[10px] sm:text-xs">↗</span>
               </button>
-              <div className="w-28 sm:w-36 h-[1px] bg-white/15" />
             </div>
 
             {/* 3. Floating, rotated artistic photos framing the typography */}
@@ -732,7 +770,7 @@ export default function Home() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full mt-2 bg-white text-black hover:bg-zinc-200 rounded-full font-medium text-xs uppercase tracking-widest py-6 shadow-xl shadow-white/5 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+                      className="w-full mt-2 bg-white text-black hover:bg-zinc-200 rounded-lg font-medium text-xs uppercase tracking-widest py-6 shadow-xl shadow-white/5 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 cursor-pointer"
                     >
                       {isSubmitting ? "Transmitting..." : "Send Connection Dispatch"}
                     </Button>
