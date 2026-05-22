@@ -14,23 +14,87 @@
   --font-heading: var(--font-geist-sans);
   --font-instrument: "Instrument Sans", sans-serif;
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
-  
+
   --animate-float: float 8s ease-in-out infinite;
   --animate-float-reverse: float-reverse 10s ease-in-out infinite;
   --animate-pulse-slow: pulse-slow 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-spin-slow: spin 20s linear infinite;
+  --animate-aurora-red: aurora-red 28s ease-in-out infinite alternate;
+  --animate-aurora-peach: aurora-peach 32s ease-in-out infinite alternate;
+  --animate-aurora-gold: aurora-gold 24s ease-in-out infinite alternate;
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-15px) scale(1.03); }
+
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+    }
+
+    50% {
+      transform: translateY(-15px) scale(1.03);
+    }
   }
+
   @keyframes float-reverse {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(15px) scale(0.97); }
+
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+    }
+
+    50% {
+      transform: translateY(15px) scale(0.97);
+    }
   }
+
   @keyframes pulse-slow {
-    0%, 100% { opacity: 0.15; transform: scale(1); }
-    50% { opacity: 0.35; transform: scale(1.15); }
+
+    0%,
+    100% {
+      opacity: 0.15;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.35;
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes aurora-red {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(5%, -3%, 0) scale(1.08) rotate(2deg);
+    }
+    100% {
+      transform: translate3d(-2%, 2%, 0) scale(0.96) rotate(-1deg);
+    }
+  }
+
+  @keyframes aurora-peach {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(-4%, 5%, 0) scale(0.92) rotate(-2deg);
+    }
+    100% {
+      transform: translate3d(3%, -2%, 0) scale(1.05) rotate(1deg);
+    }
+  }
+
+  @keyframes aurora-gold {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(2%, 3%, 0) scale(1.06) rotate(1.5deg);
+    }
+    100% {
+      transform: translate3d(-4%, -1%, 0) scale(0.95) rotate(-1deg);
+    }
   }
 
   --color-sidebar-ring: var(--sidebar-ring);
@@ -144,54 +208,40 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
 }
 
 .bg-nyro-hero {
+  position: relative;
   background-color: #050506 !important;
+  overflow: hidden;
+}
+
+.bg-nyro-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
   background-image:
     /* 1. Sparse Crosshairs SVG (spaced 160px apart) */
     url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E"),
-    /* 2. Fine Grid Lines SVG (40px squares) */
-    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E"),
+    /* 2. Fine Grid Lines SVG (40px squares with centered intersections) */
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 20 0 L 20 40 M 0 20 L 40 20' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E"),
     /* 3. Noise grain overlay */
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23noiseFilter%29' opacity='0.065'/%3E%3C/svg%3E"),
-    /* 4. Magenta/pink glow on the far right */
-    radial-gradient(circle at 95% 50%, rgba(219, 39, 119, 0.28) 0%, transparent 45%),
-    /* 5. Yellow brush in the lower right */
-    radial-gradient(circle at 75% 72%, rgba(234, 179, 8, 0.26) 0%, transparent 35%),
-    /* 6. Diagonal light streak from bottom-left to top-right */
-    radial-gradient(circle at 55% 58%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-    /* 7. Warm red/orange glow at the bottom center-left */
-    radial-gradient(circle at 35% 82%, rgba(225, 29, 72, 0.24) 0%, transparent 35%),
-    /* 8. Forest green/teal glow in the top center-right */
-    radial-gradient(circle at 70% 15%, rgba(13, 148, 136, 0.14) 0%, transparent 40%) !important;
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23noiseFilter%29' opacity='0.065'/%3E%3C/svg%3E") !important;
   background-position: center !important;
 }
 
 @utility bg-nyro-hero {
+  position: relative;
   background-color: #050506;
-  background-image:
-    /* 1. Sparse Crosshairs SVG (spaced 160px apart) */
-    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E"),
-    /* 2. Fine Grid Lines SVG (40px squares) */
-    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E"),
-    /* 3. Noise grain overlay */
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23noiseFilter%29' opacity='0.065'/%3E%3C/svg%3E"),
-    /* 4. Magenta/pink glow on the far right */
-    radial-gradient(circle at 95% 50%, rgba(219, 39, 119, 0.28) 0%, transparent 45%),
-    /* 5. Yellow brush in the lower right */
-    radial-gradient(circle at 75% 72%, rgba(234, 179, 8, 0.26) 0%, transparent 35%),
-    /* 6. Diagonal light streak from bottom-left to top-right */
-    radial-gradient(circle at 55% 58%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-    /* 7. Warm red/orange glow at the bottom center-left */
-    radial-gradient(circle at 35% 82%, rgba(225, 29, 72, 0.24) 0%, transparent 35%),
-    /* 8. Forest green/teal glow in the top center-right */
-    radial-gradient(circle at 70% 15%, rgba(13, 148, 136, 0.14) 0%, transparent 40%);
-  background-position: center;
+  overflow: hidden;
 }

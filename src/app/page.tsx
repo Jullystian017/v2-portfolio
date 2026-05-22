@@ -209,6 +209,16 @@ export default function Home() {
       {/* FULL-WIDTH HERO WRAPPER (Grainy color mesh background only for the top section) */}
       <div className="w-full bg-nyro-hero relative overflow-hidden flex flex-col">
 
+        {/* Organic Animated Glow Mesh / Aurora Layers */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+          {/* Light 1: Crimson Red (Top-Right / Middle-Right) */}
+          <div className="absolute top-[10%] right-[-5%] w-[70vw] h-[70vw] sm:w-[60vw] sm:h-[60vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.38)_0%,rgba(185,28,28,0.1)_45%,transparent_100%)] blur-[80px] sm:blur-[110px] mix-blend-screen animate-aurora-red" />
+          {/* Light 2: Soft Peach (Middle-Right / Bottom-Right) */}
+          <div className="absolute top-[30%] right-[-10%] w-[65vw] h-[65vw] sm:w-[55vw] sm:h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.35)_0%,rgba(244,63,94,0.1)_45%,transparent_100%)] blur-[95px] sm:blur-[120px] mix-blend-screen animate-aurora-peach" />
+          {/* Light 3: Yellow-Gold (Bottom-Right) */}
+          <div className="absolute bottom-[-15%] right-[-15%] w-[60vw] h-[60vw] sm:w-[50vw] sm:h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.45)_0%,rgba(234,179,8,0.12)_45%,transparent_100%)] blur-[75px] sm:blur-[100px] mix-blend-screen animate-aurora-gold" />
+        </div>
+
         {/* PREMIUM NAVIGATION HEADER */}
         <header className="w-full relative z-40">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between">
