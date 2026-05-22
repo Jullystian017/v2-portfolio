@@ -1,21 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  Globe, 
-  ExternalLink, 
-  Code, 
-  Sparkles, 
-  Cpu, 
-  Layers, 
-  Heart, 
-  Send, 
-  CheckCircle2, 
-  Flame, 
-  GraduationCap, 
-  Workflow, 
-  Sun, 
-  Moon, 
+import {
+  Globe,
+  ExternalLink,
+  Code,
+  Sparkles,
+  Cpu,
+  Layers,
+  Heart,
+  Send,
+  CheckCircle2,
+  Flame,
+  GraduationCap,
+  Workflow,
+  Sun,
+  Moon,
   Command,
   X,
   ArrowRight,
@@ -132,29 +132,29 @@ export default function Home() {
 
   // Services list (replaces skills in the layout to better suit the menu drawer)
   const services = [
-    { 
-      name: "Frontend Architecture", 
-      level: 95, 
+    {
+      name: "Frontend Architecture",
+      level: 95,
       desc: "Creating high-fidelity, pixel-perfect user interfaces with React 19, Next.js, and modern CSS systems.",
-      icon: <Layers className="h-5 w-5 text-pink-400 animate-pulse" /> 
+      icon: <Layers className="h-5 w-5 text-pink-400 animate-pulse" />
     },
-    { 
-      name: "Serverless & Edge Compute", 
-      level: 88, 
+    {
+      name: "Serverless & Edge Compute",
+      level: 88,
       desc: "Architecting hyper-scalable serverless runtimes and sub-millisecond edge database distribution architectures.",
-      icon: <Cpu className="h-5 w-5 text-amber-400" /> 
+      icon: <Cpu className="h-5 w-5 text-amber-400" />
     },
-    { 
-      name: "AI/LLM System Integration", 
-      level: 90, 
+    {
+      name: "AI/LLM System Integration",
+      level: 90,
       desc: "Integrating state-of-the-art LLMs, multi-agent frameworks, vector search engines, and prompt pipelines.",
-      icon: <Sparkles className="h-5 w-5 text-teal-400 animate-bounce" /> 
+      icon: <Sparkles className="h-5 w-5 text-teal-400 animate-bounce" />
     },
-    { 
-      name: "Database Engineering", 
-      level: 82, 
+    {
+      name: "Database Engineering",
+      level: 82,
       desc: "Optimizing structured schemas, transaction processing pipelines, and caching layers with Redis and PostgreSQL.",
-      icon: <Workflow className="h-5 w-5 text-violet-400" /> 
+      icon: <Workflow className="h-5 w-5 text-violet-400" />
     }
   ];
 
@@ -190,8 +190,8 @@ export default function Home() {
   };
 
   // Filtered projects selector
-  const filteredProjects = activeTab === "all" 
-    ? projects 
+  const filteredProjects = activeTab === "all"
+    ? projects
     : projects.filter(p => p.category === activeTab);
 
   // Close menu drawer on anchor navigation
@@ -208,10 +208,10 @@ export default function Home() {
 
       {/* FULL-WIDTH HERO WRAPPER (Grainy color mesh background only for the top section) */}
       <div className="w-full bg-nyro-hero relative overflow-hidden flex flex-col">
-        
+
         {/* PREMIUM NAVIGATION HEADER */}
         <header className="w-full relative z-40">
-          <div className="max-w-7xl mx-auto px-8 sm:px-16 md:px-20 lg:px-24 h-24 flex items-center justify-between">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between">
             {/* Logo Branding */}
             <div className="flex items-center gap-1 group cursor-pointer" onClick={() => navigateTo("home")}>
               <span className="font-instrument font-medium text-xl sm:text-2xl tracking-tight text-white hover:opacity-85 transition-opacity">
@@ -232,17 +232,17 @@ export default function Home() {
         </header>
 
         {/* HERO SECTION */}
-        <div className="w-full max-w-7xl mx-auto px-8 sm:px-16 md:px-20 lg:px-24 relative z-20">
-          <section 
-            id="home" 
+        <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-20">
+          <section
+            id="home"
             className="min-h-[calc(100vh-6rem)] flex flex-col justify-end pb-12 sm:pb-20 relative"
           >
             {/* Main Hero Layout Row - Flex container containing title */}
             <div className="w-full flex flex-col lg:flex-row lg:items-end">
-              
+
               {/* Title */}
-              <div>
-                <h1 className="font-instrument font-medium text-[11vw] sm:text-[8vw] lg:text-[7.5vw] leading-[0.9] tracking-tighter text-white select-none">
+              <div className="pl-16 sm:pl-20 md:pl-24">
+                <h1 className="font-instrument font-medium text-[11vw] sm:text-[8vw] lg:text-[7.5vw] leading-[0.98] tracking-tighter text-white select-none">
                   Designing <br />
                   <span className="font-sans font-light text-zinc-500 mr-4 opacity-60 lowercase">for</span>
                   <span className="text-white">Startups</span>
@@ -251,28 +251,28 @@ export default function Home() {
 
             </div>
 
-            {/* Absolute Socials stacked vertically in the left padding space */}
-            <div className="absolute -left-6 sm:-left-12 lg:-left-16 bottom-12 sm:bottom-20 flex flex-col items-center gap-6 pb-2.5 z-30">
-              <a 
-                href="https://dribbble.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            {/* Absolute Socials stacked vertically, aligned with the left edge of container */}
+            <div className="absolute left-0 bottom-12 sm:bottom-20 flex flex-col items-center gap-6 pb-2.5 z-30">
+              <a
+                href="https://dribbble.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white transition-colors duration-300"
               >
                 <DribbbleIcon className="h-5.5 w-5.5" />
               </a>
-              <a 
-                href="https://behance.net" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://behance.net"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white transition-colors duration-300"
               >
                 <BehanceIcon className="h-5.5 w-5.5" />
               </a>
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white transition-colors duration-300"
               >
                 <LinkedInIcon className="h-5.5 w-5.5" />
@@ -284,12 +284,11 @@ export default function Home() {
       </div>
 
       {/* FULL SCREEN GLASSMORPHIC MENU DRAWER */}
-      <div 
-        className={`fixed inset-0 z-50 bg-black/45 backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-        }`}
+      <div
+        className={`fixed inset-0 z-50 bg-black/45 backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+          }`}
       >
-        <div className="max-w-7xl mx-auto px-8 sm:px-16 md:px-20 lg:px-24 h-24 flex items-center justify-between">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between">
           <span className="font-instrument font-medium text-xl sm:text-2xl tracking-tight text-white/50">
             Jullystian<sup>®</sup>
           </span>
@@ -339,16 +338,16 @@ export default function Home() {
 
 
       {/* MAIN CONTAINER */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-8 sm:px-16 md:px-20 lg:px-24 relative z-20 flex flex-col gap-32">
+      <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-20 flex flex-col gap-32">
 
         {/* STRATEGIC STATEMENT SECTION */}
-        <section 
-          id="about" 
+        <section
+          id="about"
           className="relative py-28 sm:py-36 lg:py-48 flex items-center justify-center overflow-visible"
         >
           {/* Main typography container */}
           <div className="relative max-w-3xl mx-auto text-center z-10 px-4">
-            
+
             {/* 1. Centered Strategic Statement Paragraph */}
             <h2 className="font-jakarta font-medium text-3xl sm:text-5xl lg:text-[3.8rem] lg:leading-[1.1] tracking-tight text-white max-w-3xl mx-auto select-none">
               At Jullystian© simplicity <br className="hidden sm:inline" />
@@ -361,7 +360,7 @@ export default function Home() {
             {/* 2. Lowercase contact button bordered above and below */}
             <div className="mt-12 sm:mt-16 flex flex-col items-center select-none">
               <div className="w-28 sm:w-36 h-[1px] bg-white/15" />
-              <button 
+              <button
                 onClick={() => navigateTo("contact")}
                 className="py-3 px-6 text-xs sm:text-sm font-sans tracking-widest lowercase text-white hover:opacity-85 transition-all cursor-pointer flex items-center gap-1.5 font-light"
               >
@@ -373,36 +372,36 @@ export default function Home() {
             {/* 3. Floating, rotated artistic photos framing the typography */}
             {/* Top-Left Portrait */}
             <div className="absolute -top-12 -left-12 sm:-top-16 sm:-left-20 lg:-top-24 lg:-left-28 w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[-8deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img 
-                src="/nyro_portrait_1.png" 
-                alt="Studio portrait 1" 
+              <img
+                src="/nyro_portrait_1.png"
+                alt="Studio portrait 1"
                 className="w-full h-full object-cover"
               />
             </div>
 
             {/* Top-Right Portrait */}
             <div className="absolute -top-16 -right-12 sm:-top-24 sm:-right-20 lg:-top-32 lg:-right-28 w-28 h-28 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img 
-                src="/nyro_portrait_2.png" 
-                alt="Studio portrait 2" 
+              <img
+                src="/nyro_portrait_2.png"
+                alt="Studio portrait 2"
                 className="w-full h-full object-cover"
               />
             </div>
 
             {/* Bottom-Left Portrait */}
             <div className="absolute -bottom-16 -left-10 sm:-bottom-24 sm:-left-16 lg:-bottom-32 lg:-left-24 w-28 h-28 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[-6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img 
-                src="/nyro_portrait_3.png" 
-                alt="Studio portrait 3" 
+              <img
+                src="/nyro_portrait_3.png"
+                alt="Studio portrait 3"
                 className="w-full h-full object-cover"
               />
             </div>
 
             {/* Bottom-Right Portrait */}
             <div className="absolute -bottom-12 -right-8 sm:-bottom-16 sm:-right-12 lg:-bottom-20 lg:-right-16 w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[8deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img 
-                src="/nyro_portrait_4.png" 
-                alt="Studio portrait 4" 
+              <img
+                src="/nyro_portrait_4.png"
+                alt="Studio portrait 4"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -433,11 +432,10 @@ export default function Home() {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
-                    activeTab === tab 
-                      ? "bg-white text-black shadow-lg scale-105" 
-                      : "text-zinc-500 hover:text-white hover:bg-white/5"
-                  }`}
+                  className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all duration-300 ${activeTab === tab
+                    ? "bg-white text-black shadow-lg scale-105"
+                    : "text-zinc-500 hover:text-white hover:bg-white/5"
+                    }`}
                 >
                   {tab}
                 </button>
@@ -448,22 +446,22 @@ export default function Home() {
           {/* Grid Layout - Clean, minimalist 2x2 modular blocks */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((project) => (
-              <Card 
-                key={project.id} 
+              <Card
+                key={project.id}
                 className="bg-white/[0.01] border-white/5 backdrop-blur-md rounded-3xl overflow-hidden hover:border-white/15 hover:bg-white/[0.02] transition-all duration-500 flex flex-col group h-full shadow-2xl relative"
               >
-                
+
                 {/* Glow outline on hover */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/0 via-teal-500/0 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                 {/* Project Visual Cover with modern gradient block */}
-                <div 
+                <div
                   className="h-56 w-full relative transition-all duration-700 group-hover:scale-[1.01] flex items-center justify-center overflow-hidden"
                   style={{ background: project.image }}
                 >
                   <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
                   <Code className="h-16 w-16 text-white/20 group-hover:text-white/40 backdrop-blur-md p-4 rounded-full border border-white/10 transition-colors duration-300" />
-                  
+
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-black/55 text-white border border-white/5 backdrop-blur-md uppercase text-[9px] font-medium tracking-wider py-1 px-2.5">
                       {project.category}
@@ -507,15 +505,14 @@ export default function Home() {
                     <ShieldCheck className="h-3.5 w-3.5 text-zinc-600" />
                     Apache-2.0 Open Source
                   </span>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleLike(project.id)}
-                    className={`rounded-full border text-xs gap-1.5 px-3 py-1.5 transition-all duration-300 ${
-                      project.liked 
-                        ? "bg-rose-500/10 border-rose-500/20 text-rose-400 hover:bg-rose-500/20" 
-                        : "border-white/5 text-zinc-400 hover:text-white hover:bg-white/5"
-                    }`}
+                    className={`rounded-full border text-xs gap-1.5 px-3 py-1.5 transition-all duration-300 ${project.liked
+                      ? "bg-rose-500/10 border-rose-500/20 text-rose-400 hover:bg-rose-500/20"
+                      : "border-white/5 text-zinc-400 hover:text-white hover:bg-white/5"
+                      }`}
                   >
                     <Heart className={`h-3.5 w-3.5 ${project.liked ? "fill-current" : ""}`} />
                     <span>{project.likes}</span>
@@ -549,7 +546,7 @@ export default function Home() {
                     </div>
                     <span className="font-instrument font-medium text-2xl text-teal-400">{svc.level}%</span>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-xl font-medium text-white mt-2 group-hover:text-teal-300 transition-colors">{svc.name}</h3>
                     <p className="text-zinc-500 text-sm font-light mt-3 leading-relaxed">{svc.desc}</p>
@@ -558,7 +555,7 @@ export default function Home() {
 
                 <div className="mt-8 flex flex-col gap-2">
                   <div className="h-1.5 w-full bg-zinc-900 border border-white/5 rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 rounded-full transition-all duration-1000"
                       style={{ width: `${svc.level}%` }}
                     />
@@ -589,7 +586,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
+
             {/* Connection Information */}
             <div className="lg:col-span-5 flex flex-col justify-between gap-6 p-8 rounded-3xl bg-white/[0.01] border border-white/5 backdrop-blur-md">
               <div className="flex flex-col gap-6">
@@ -627,7 +624,7 @@ export default function Home() {
             {/* Interactive Form */}
             <div className="lg:col-span-7">
               <Card className="bg-white/[0.01] border-white/5 backdrop-blur-md rounded-3xl p-8 relative overflow-hidden flex flex-col justify-between h-full shadow-2xl">
-                
+
                 {submitSuccess ? (
                   <div className="my-auto p-8 border border-emerald-500/10 bg-emerald-500/5 rounded-3xl flex flex-col items-center text-center gap-4 animate-fade-in">
                     <CheckCircle2 className="h-12 w-12 text-teal-400" />
@@ -662,10 +659,10 @@ export default function Home() {
                       />
                     </div>
 
-                    <Button 
-                       type="submit" 
-                       disabled={isSubmitting}
-                       className="w-full mt-2 bg-white text-black hover:bg-zinc-200 rounded-full font-medium text-xs uppercase tracking-widest py-6 shadow-xl shadow-white/5 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full mt-2 bg-white text-black hover:bg-zinc-200 rounded-full font-medium text-xs uppercase tracking-widest py-6 shadow-xl shadow-white/5 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
                     >
                       {isSubmitting ? "Transmitting..." : "Send Connection Dispatch"}
                     </Button>
@@ -686,7 +683,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="border-t border-white/5 py-12 mt-32 bg-black/40 relative z-30 text-xs text-zinc-500">
-        <div className="max-w-7xl mx-auto px-8 sm:px-16 md:px-20 lg:px-24 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigateTo("home")}>
             <span className="font-instrument font-medium text-white text-lg tracking-tight">Jullystian<sup>®</sup></span>
           </div>
