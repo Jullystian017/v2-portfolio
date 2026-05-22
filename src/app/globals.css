@@ -156,9 +156,9 @@
   background-color: #050506 !important;
   background-image:
     /* 1. Sparse Crosshairs SVG (spaced 160px apart) */
-    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='rgba%28255, 255, 255, 0.07%29' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E"),
     /* 2. Fine Grid Lines SVG (40px squares) */
-    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='rgba%28255, 255, 255, 0.015%29' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E"),
     /* 3. Noise grain overlay */
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23noiseFilter%29' opacity='0.065'/%3E%3C/svg%3E"),
     /* 4. Magenta/pink glow on the far right */
@@ -178,9 +178,9 @@
   background-color: #050506;
   background-image:
     /* 1. Sparse Crosshairs SVG (spaced 160px apart) */
-    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='rgba%28255, 255, 255, 0.07%29' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E"),
     /* 2. Fine Grid Lines SVG (40px squares) */
-    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='rgba%28255, 255, 255, 0.015%29' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 40 0 M 0 0 L 0 40' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E"),
     /* 3. Noise grain overlay */
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23noiseFilter%29' opacity='0.065'/%3E%3C/svg%3E"),
     /* 4. Magenta/pink glow on the far right */
