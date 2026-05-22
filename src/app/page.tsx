@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -229,8 +230,20 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#050506] text-[#f3f4f6] font-sans selection:bg-teal-500/30 selection:text-teal-200 relative overflow-x-hidden flex flex-col">
 
-      {/* FULL-WIDTH HERO WRAPPER (Grainy color mesh background only for the top section) */}
-      <div className="w-full bg-nyro-hero relative overflow-hidden flex flex-col">
+      {/* FLOW ART - wraps only Hero and About */}
+      <FlowArt aria-label="Jullystian Portfolio Presentation" className="relative z-20 flex-1">
+
+        {/* FULL-WIDTH HERO WRAPPER (Grainy color mesh background only for the top section) */}
+        <section
+          id="home"
+          data-flow-section
+          aria-label="Home"
+          className="w-full bg-nyro-hero relative overflow-hidden flex flex-col min-h-screen"
+        >
+          <div
+            className="flow-art-container w-full flex-grow flex flex-col relative"
+            style={{ transformOrigin: 'bottom left' }}
+          >
 
         {/* Organic Animated Glow Mesh / Aurora Layers */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
@@ -334,7 +347,8 @@ export default function Home() {
           </section>
         </div>
 
-      </div>
+          </div>
+        </section>
 
       {/* FULL SCREEN GLASSMORPHIC MENU DRAWER */}
       <div
@@ -390,16 +404,15 @@ export default function Home() {
 
 
 
-      {/* MAIN CONTAINER */}
-      <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-20 flex flex-col gap-32">
-
-        {/* STRATEGIC STATEMENT SECTION */}
-        <section
+        {/* SECTION 1: STRATEGIC STATEMENT */}
+        <FlowSection
           id="about"
-          className="relative py-28 sm:py-36 lg:py-48 flex items-center justify-center overflow-visible"
+          aria-label="About Jullystian"
+          style={{ backgroundColor: "#050506" }}
+          className="flex items-center justify-center"
         >
           {/* Main typography container */}
-          <div className="relative max-w-3xl mx-auto text-center z-10 px-4">
+          <div className="relative max-w-3xl mx-auto text-center z-10 px-4 my-auto">
 
             {/* 1. Centered Strategic Statement Paragraph */}
             <h2 className="font-jakarta font-medium text-3xl sm:text-5xl lg:text-[3.8rem] lg:leading-[1.1] tracking-tight text-white max-w-3xl mx-auto select-none">
@@ -465,9 +478,13 @@ export default function Home() {
             </div>
 
           </div>
-        </section>
+        </FlowSection>
+      </FlowArt>
 
-        {/* PROJECTS SECTION */}
+      {/* Main container for other sections (standard scroll) */}
+      <main className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-20 flex flex-col gap-24 sm:gap-32 relative z-20">
+
+        {/* SECTION 2: PROJECTS */}
         <section id="projects" className="scroll-mt-12 flex flex-col gap-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
             <div>
@@ -577,7 +594,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SERVICES SECTION */}
+        {/* SECTION 3: SERVICES */}
         <section id="services" className="scroll-mt-12 flex flex-col gap-10">
           <div className="border-b border-white/5 pb-8">
             <h2 className="font-instrument font-medium text-3xl sm:text-5xl text-white tracking-tight">
@@ -731,7 +748,6 @@ export default function Home() {
 
           </div>
         </section>
-
       </main>
 
       {/* FOOTER */}
