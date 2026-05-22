@@ -72,6 +72,29 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"all" | "frontend" | "backend" | "ai">("all");
 
+  // Rotating words in the Hero section (with duplicate at end for infinite upward scroll)
+  const heroWords = ["Startups", "You", "Brands", "Products", "Startups"];
+  const [currentWordIdx, setCurrentWordIdx] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setCurrentWordIdx((prev) => prev + 1);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (currentWordIdx === 4) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentWordIdx(0);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [currentWordIdx]);
+
   // Dynamic project showcase data
   const [projects, setProjects] = useState<Project[]>([
     {
@@ -217,6 +240,8 @@ export default function Home() {
           <div className="absolute top-[30%] right-[-10%] w-[65vw] h-[65vw] sm:w-[55vw] sm:h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.35)_0%,rgba(244,63,94,0.1)_45%,transparent_100%)] blur-[95px] sm:blur-[120px] mix-blend-screen animate-aurora-peach" />
           {/* Light 3: Yellow-Gold (Bottom-Right) */}
           <div className="absolute bottom-[-15%] right-[-15%] w-[60vw] h-[60vw] sm:w-[50vw] sm:h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.45)_0%,rgba(234,179,8,0.12)_45%,transparent_100%)] blur-[75px] sm:blur-[100px] mix-blend-screen animate-aurora-gold" />
+          {/* Light 4: Left Aurora behind Hero Text (Crimson-Rose) - Compact focused glow */}
+          <div className="absolute top-[28%] left-[-10%] w-[38vw] h-[38vw] sm:w-[28vw] sm:h-[28vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.3)_0%,rgba(244,63,94,0.08)_45%,transparent_100%)] blur-[60px] sm:blur-[80px] mix-blend-screen animate-aurora-left" />
         </div>
 
         {/* PREMIUM NAVIGATION HEADER */}
@@ -253,9 +278,27 @@ export default function Home() {
               {/* Title */}
               <div className="pl-16 sm:pl-20 md:pl-24">
                 <h1 className="font-instrument font-medium text-[11vw] sm:text-[8vw] lg:text-[7.5vw] leading-[0.98] tracking-tighter text-white select-none">
-                  Designing <br />
-                  <span className="font-sans font-light text-zinc-500 mr-4 opacity-60 lowercase">for</span>
-                  <span className="text-white">Startups</span>
+                  <span className="inline-block opacity-0 animate-hero-text [animation-delay:250ms]">
+                    Designing
+                  </span>
+                  <br />
+                  <span className="inline-flex items-baseline opacity-0 animate-hero-text [animation-delay:550ms]">
+                    <span className="font-sans font-light text-zinc-500 mr-4 opacity-60 lowercase">for</span>
+                    <span className="inline-flex flex-col h-[1.1em] overflow-hidden align-bottom relative">
+                      <span
+                        className={`flex flex-col text-white ${
+                          isTransitioning ? "transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" : ""
+                        }`}
+                        style={{ transform: `translateY(-${currentWordIdx * 20}%)` }}
+                      >
+                        {heroWords.map((word, idx) => (
+                          <span key={idx} className="h-[1.1em] flex items-center">
+                            {word}
+                          </span>
+                        ))}
+                      </span>
+                    </span>
+                  </span>
                 </h1>
               </div>
 

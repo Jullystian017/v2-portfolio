@@ -19,9 +19,12 @@
   --animate-float-reverse: float-reverse 10s ease-in-out infinite;
   --animate-pulse-slow: pulse-slow 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-spin-slow: spin 20s linear infinite;
-  --animate-aurora-red: aurora-red 28s ease-in-out infinite alternate;
-  --animate-aurora-peach: aurora-peach 32s ease-in-out infinite alternate;
-  --animate-aurora-gold: aurora-gold 24s ease-in-out infinite alternate;
+  --animate-aurora-red: glow-bloom-red 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-red 28s ease-in-out infinite alternate 3.2s;
+  --animate-aurora-peach: glow-bloom-peach 3.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-peach 32s ease-in-out infinite alternate 3.6s;
+  --animate-aurora-gold: glow-bloom-gold 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-gold 24s ease-in-out infinite alternate 2.8s;
+  --animate-aurora-left: glow-bloom-left 3.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-left 30s ease-in-out infinite alternate 3.4s;
+  --animate-word-slide: word-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-hero-text: fade-in-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes float {
 
@@ -94,6 +97,88 @@
     }
     100% {
       transform: translate3d(-4%, -1%, 0) scale(0.95) rotate(-1deg);
+    }
+  }
+
+  @keyframes aurora-left {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(4%, 3%, 0) scale(1.04) rotate(1deg);
+    }
+    100% {
+      transform: translate3d(-3%, -2%, 0) scale(0.96) rotate(-1deg);
+    }
+  }
+
+  @keyframes word-slide {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0) scale(0.98);
+      filter: blur(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes glow-bloom-red {
+    0% {
+      transform: translate3d(8%, 5%, 0) scale(0.38);
+      opacity: 0.15;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes glow-bloom-peach {
+    0% {
+      transform: translate3d(5%, 8%, 0) scale(0.35);
+      opacity: 0.1;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes glow-bloom-gold {
+    0% {
+      transform: translate3d(10%, 10%, 0) scale(0.4);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes glow-bloom-left {
+    0% {
+      transform: translate3d(-8%, -5%, 0) scale(0.35);
+      opacity: 0.1;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 40px, 0);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0);
     }
   }
 
@@ -231,6 +316,8 @@
   z-index: 10;
   pointer-events: none;
   background-image:
+    /* Top shadow cover to mask grid near top screen edges */
+    linear-gradient(to bottom, #050506 0%, #050506 8%, rgba(5,5,6,0.85) 15%, rgba(5,5,6,0) 45%),
     /* 1. Sparse Crosshairs SVG (spaced 160px apart) */
     url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 80 74 L 80 86 M 74 80 L 86 80' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E"),
     /* 2. Fine Grid Lines SVG (40px squares with centered intersections) */
@@ -244,4 +331,8 @@
   position: relative;
   background-color: #050506;
   overflow: hidden;
+}
+
+.text-hero-shadow {
+  text-shadow: 0 4px 30px rgba(5, 5, 6, 0.95), 0 2px 10px rgba(5, 5, 6, 0.85);
 }
