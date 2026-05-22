@@ -365,9 +365,11 @@ export default function Home() {
         </div>
 
         <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between relative z-10">
-          <span className="font-instrument font-medium text-xl sm:text-2xl tracking-tight text-white/50">
-            Jullystian<sup>®</sup>
-          </span>
+          <div className="flex items-center gap-1 group cursor-pointer" onClick={() => navigateTo("home")}>
+            <span className="font-instrument font-medium text-xl sm:text-2xl tracking-tight text-white/50 hover:text-white transition-colors duration-300">
+              Jullystian<sup className="text-[10px] font-sans font-light tracking-widest relative -top-2">®</sup>
+            </span>
+          </div>
           <button
             onClick={() => setIsMenuOpen(false)}
             className="flex items-center gap-2 text-white/60 hover:text-white transition-all duration-300 font-sans tracking-widest uppercase text-xs px-4 py-2 border border-white/10 hover:border-white/30 rounded-lg bg-transparent cursor-pointer group active:scale-95"
