@@ -31,6 +31,7 @@ import { Input } from "@/components/ui/input";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import CustomCursor from "@/components/ui/custom-cursor";
 import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
+import { CinematicFooter } from "@/components/ui/motion-footer";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -523,7 +524,7 @@ export default function Home() {
       </FlowArt>
 
       {/* Main container for other sections (standard scroll) */}
-      <main className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-20 flex flex-col gap-24 sm:gap-32 relative z-20">
+      <main className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-20 flex flex-col gap-24 sm:gap-32 relative z-20 bg-[#050506]">
 
         {/* SECTION 2: PROJECTS */}
         <section id="projects" className="scroll-mt-12 flex flex-col gap-10">
@@ -762,22 +763,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/5 py-12 mt-32 bg-black/40 relative z-30 text-xs text-zinc-500">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigateTo("home")}>
-            <span className="font-instrument font-medium text-white text-lg tracking-tight">Jullystian<sup>®</sup></span>
-          </div>
-          <p className="font-light text-zinc-600">
-            © {new Date().getFullYear()} Jullystian Studio. Handcrafted in Indonesia. All Rights Reserved.
-          </p>
-          <div className="flex gap-6 font-medium uppercase tracking-wider text-[10px]">
-            <a href="#" className="hover:text-white transition-colors duration-300">Security</a>
-            <a href="#" className="hover:text-white transition-colors duration-300">API Status</a>
-            <a href="#" className="hover:text-white transition-colors duration-300">Legal</a>
-          </div>
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }
