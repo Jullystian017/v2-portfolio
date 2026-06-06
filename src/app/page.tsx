@@ -10,7 +10,6 @@ import {
   Layers,
   Heart,
   Send,
-  CheckCircle2,
   Flame,
   GraduationCap,
   Workflow,
@@ -27,7 +26,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import CustomCursor from "@/components/ui/custom-cursor";
 import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
@@ -151,40 +149,6 @@ export default function Home() {
     }
   ]);
 
-  // Contact form submission states
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  // Services list (replaces skills in the layout to better suit the menu drawer)
-  const services = [
-    {
-      name: "Frontend Architecture",
-      level: 95,
-      desc: "Creating high-fidelity, pixel-perfect user interfaces with React 19, Next.js, and modern CSS systems.",
-      icon: <Layers className="h-5 w-5 text-pink-400 animate-pulse" />
-    },
-    {
-      name: "Serverless & Edge Compute",
-      level: 88,
-      desc: "Architecting hyper-scalable serverless runtimes and sub-millisecond edge database distribution architectures.",
-      icon: <Cpu className="h-5 w-5 text-amber-400" />
-    },
-    {
-      name: "AI/LLM System Integration",
-      level: 90,
-      desc: "Integrating state-of-the-art LLMs, multi-agent frameworks, vector search engines, and prompt pipelines.",
-      icon: <Sparkles className="h-5 w-5 text-teal-400 animate-bounce" />
-    },
-    {
-      name: "Database Engineering",
-      level: 82,
-      desc: "Optimizing structured schemas, transaction processing pipelines, and caching layers with Redis and PostgreSQL.",
-      icon: <Workflow className="h-5 w-5 text-violet-400" />
-    }
-  ];
-
   // Toggle "Like" state for a project
   const handleLike = (id: number) => {
     setProjects(prevProjects =>
@@ -201,21 +165,6 @@ export default function Home() {
     );
   };
 
-  // Submit contact form
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !message) return;
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setEmail("");
-      setMessage("");
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1200);
-  };
-
   // Filtered projects selector
   const filteredProjects = activeTab === "all"
     ? projects
@@ -224,6 +173,10 @@ export default function Home() {
   // Close menu drawer on anchor navigation
   const navigateTo = (id: string) => {
     setIsMenuOpen(false);
+    if (id === "contact") {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -657,110 +610,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CONTACT SECTION */}
-        <section id="contact" className="scroll-mt-12 flex flex-col gap-10">
-          <div className="border-b border-white/5 pb-8">
-            <h2 className="font-instrument font-medium text-3xl sm:text-5xl text-white tracking-tight">
-              Initiate Connection
-            </h2>
-            <p className="text-zinc-500 text-sm mt-2 font-light">
-              Submit your project blueprints to establish secure socket communication.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-
-            {/* Connection Information */}
-            <div className="lg:col-span-5 flex flex-col justify-between gap-6 p-8 rounded-3xl bg-white/[0.01] border border-white/5 backdrop-blur-md">
-              <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-lg bg-teal-500/10 flex items-center justify-center">
-                    <span className="h-3 w-3 rounded-full bg-teal-400" />
-                  </div>
-                  <span className="text-white font-medium text-sm tracking-wider uppercase">Active Network Status</span>
-                </div>
-
-                <div className="flex flex-col gap-4 text-sm font-light text-zinc-500">
-                  <div className="flex justify-between border-b border-white/5 pb-3">
-                    <span>Target Node</span>
-                    <span className="text-white font-medium">Banten, Indonesia</span>
-                  </div>
-                  <div className="flex justify-between border-b border-white/5 pb-3">
-                    <span>Protocol Focus</span>
-                    <span className="text-white font-medium">Next.js / AI Orchestration</span>
-                  </div>
-                  <div className="flex justify-between border-b border-white/5 pb-3">
-                    <span>Availability</span>
-                    <span className="text-emerald-400 font-medium flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      100% Online
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-black/20 border border-white/5 text-xs text-zinc-500 leading-relaxed italic">
-                &ldquo;Building software feels like anti-gravity: lifting concepts up without constraints.&rdquo;
-              </div>
-            </div>
-
-            {/* Interactive Form */}
-            <div className="lg:col-span-7">
-              <Card className="bg-white/[0.01] border-white/5 backdrop-blur-md rounded-3xl p-8 relative overflow-hidden flex flex-col justify-between h-full shadow-2xl">
-
-                {submitSuccess ? (
-                  <div className="my-auto p-8 border border-emerald-500/10 bg-emerald-500/5 rounded-3xl flex flex-col items-center text-center gap-4 animate-fade-in">
-                    <CheckCircle2 className="h-12 w-12 text-teal-400" />
-                    <h4 className="font-instrument font-medium text-white text-xl">Connection Transmitted</h4>
-                    <p className="text-sm text-zinc-500 font-light leading-relaxed max-w-sm">
-                      Your signal has successfully integrated with my local socket. Expect an encrypted dispatch back within 12 standard business hours.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleContactSubmit} className="flex flex-col gap-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase font-medium tracking-widest text-zinc-500">Secure Dispatch Email</label>
-                      <Input
-                        type="email"
-                        placeholder="your-node@network.com"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="bg-black/25 border-white/5 hover:border-white/10 focus:border-teal-500 rounded-xl px-4 py-6 text-sm text-white placeholder-zinc-600 focus-visible:ring-0 focus-visible:ring-offset-0 transition-colors"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs uppercase font-medium tracking-widest text-zinc-500">Architecture Blueprint / Message</label>
-                      <textarea
-                        placeholder="Describe your design parameters or project specifications..."
-                        required
-                        rows={4}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        className="bg-black/25 border border-white/5 hover:border-white/10 focus:border-teal-500 focus:outline-none rounded-xl px-4 py-4 text-sm text-white placeholder-zinc-600 transition-colors resize-none"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full mt-2 bg-white text-black hover:bg-zinc-200 rounded-lg font-medium text-xs uppercase tracking-widest py-6 shadow-xl shadow-white/5 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 cursor-pointer"
-                    >
-                      {isSubmitting ? "Transmitting..." : "Send Connection Dispatch"}
-                    </Button>
-                  </form>
-                )}
-
-                <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-[9px] text-zinc-600 font-medium tracking-wider">
-                  <span>SHA-256 SECURE LINK</span>
-                  <span>SYSTEM VERSION v4.16.2</span>
-                </div>
-              </Card>
-            </div>
-
-          </div>
-        </section>
       </main>
 
       <CinematicFooter />

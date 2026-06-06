@@ -275,14 +275,6 @@ export function CinematicFooter() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleScrollToContact = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById("contact");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
@@ -334,7 +326,8 @@ export function CinematicFooter() {
               {/* Primary Actions */}
               <div className="flex flex-wrap justify-center gap-4 w-full">
                 <MagneticButton 
-                  onClick={handleScrollToContact} 
+                  as="a"
+                  href="mailto:jullystian017@gmail.com" 
                   className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
                 >
                   <svg className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
