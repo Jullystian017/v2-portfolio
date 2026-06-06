@@ -94,6 +94,23 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [currentWordIdx]);
+  // Hero Section Intro Animations (No specific scope needed since it targets unique classes)
+  useGSAP(() => {
+    // Hero Text Intro
+    gsap.fromTo(
+      ".hero-text-reveal",
+      { opacity: 0, y: 40, filter: "blur(4px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "power3.out", stagger: 0.3 }
+    );
+
+    // Aurora Light Bloom Intro
+    gsap.fromTo(
+      ".aurora-light",
+      { opacity: 0.1, scale: 0.35 },
+      { opacity: 1, scale: 1, duration: 3.2, ease: "power3.out", stagger: 0.2 }
+    );
+  }, []);
+
   // GSAP scroll-reveal animation for the about section words
   useGSAP(() => {
     if (!aboutContainerRef.current) return;
@@ -150,13 +167,13 @@ export default function Home() {
         {/* Organic Animated Glow Mesh / Aurora Layers */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
           {/* Light 1: Crimson Red (Top-Right / Middle-Right) */}
-          <div className="absolute top-[10%] right-[-5%] w-[70vw] h-[70vw] sm:w-[60vw] sm:h-[60vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.38)_0%,rgba(185,28,28,0.1)_45%,transparent_100%)] blur-[80px] sm:blur-[110px] mix-blend-screen animate-aurora-red" />
+          <div className="aurora-light absolute top-[10%] right-[-5%] w-[70vw] h-[70vw] sm:w-[60vw] sm:h-[60vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.38)_0%,rgba(185,28,28,0.1)_45%,transparent_100%)] blur-[80px] sm:blur-[110px] mix-blend-screen animate-aurora-red" />
           {/* Light 2: Soft Peach (Middle-Right / Bottom-Right) */}
-          <div className="absolute top-[30%] right-[-10%] w-[65vw] h-[65vw] sm:w-[55vw] sm:h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.35)_0%,rgba(244,63,94,0.1)_45%,transparent_100%)] blur-[95px] sm:blur-[120px] mix-blend-screen animate-aurora-peach" />
+          <div className="aurora-light absolute top-[30%] right-[-10%] w-[65vw] h-[65vw] sm:w-[55vw] sm:h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.35)_0%,rgba(244,63,94,0.1)_45%,transparent_100%)] blur-[95px] sm:blur-[120px] mix-blend-screen animate-aurora-peach" />
           {/* Light 3: Yellow-Gold (Bottom-Right) */}
-          <div className="absolute bottom-[-15%] right-[-15%] w-[60vw] h-[60vw] sm:w-[50vw] sm:h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.45)_0%,rgba(234,179,8,0.12)_45%,transparent_100%)] blur-[75px] sm:blur-[100px] mix-blend-screen animate-aurora-gold" />
+          <div className="aurora-light absolute bottom-[-15%] right-[-15%] w-[60vw] h-[60vw] sm:w-[50vw] sm:h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.45)_0%,rgba(234,179,8,0.12)_45%,transparent_100%)] blur-[75px] sm:blur-[100px] mix-blend-screen animate-aurora-gold" />
           {/* Light 4: Left Aurora behind Hero Text (Crimson-Rose) - Compact focused glow */}
-          <div className="absolute top-[28%] left-[-10%] w-[38vw] h-[38vw] sm:w-[28vw] sm:h-[28vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.3)_0%,rgba(244,63,94,0.08)_45%,transparent_100%)] blur-[60px] sm:blur-[80px] mix-blend-screen animate-aurora-left" />
+          <div className="aurora-light absolute top-[28%] left-[-10%] w-[38vw] h-[38vw] sm:w-[28vw] sm:h-[28vw] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.3)_0%,rgba(244,63,94,0.08)_45%,transparent_100%)] blur-[60px] sm:blur-[80px] mix-blend-screen animate-aurora-left" />
         </div>
 
         {/* PREMIUM NAVIGATION HEADER */}
@@ -213,11 +230,11 @@ export default function Home() {
                 </div>
 
                 <h1 className="font-instrument font-medium text-[11vw] sm:text-[8vw] lg:text-[7.5vw] leading-[0.98] tracking-tighter text-white select-none">
-                  <span className="inline-block opacity-0 animate-hero-text [animation-delay:250ms]">
+                  <span className="hero-text-reveal inline-block opacity-0">
                     Designing
                   </span>
                   <br />
-                  <span className="inline-flex items-baseline opacity-0 animate-hero-text [animation-delay:550ms]">
+                  <span className="hero-text-reveal inline-flex items-baseline opacity-0">
                     <span className="font-sans font-light text-zinc-500 mr-4 opacity-60 lowercase">for</span>
                     <span className="inline-flex flex-col h-[1.1em] overflow-hidden align-bottom relative">
                       <span

@@ -19,12 +19,11 @@
   --animate-float-reverse: float-reverse 10s ease-in-out infinite;
   --animate-pulse-slow: pulse-slow 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-spin-slow: spin 20s linear infinite;
-  --animate-aurora-red: glow-bloom-red 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-red 28s ease-in-out infinite alternate 3.2s;
-  --animate-aurora-peach: glow-bloom-peach 3.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-peach 32s ease-in-out infinite alternate 3.6s;
-  --animate-aurora-gold: glow-bloom-gold 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-gold 24s ease-in-out infinite alternate 2.8s;
-  --animate-aurora-left: glow-bloom-left 3.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, aurora-left 30s ease-in-out infinite alternate 3.4s;
+  --animate-aurora-red: aurora-red 28s ease-in-out infinite alternate;
+  --animate-aurora-peach: aurora-peach 32s ease-in-out infinite alternate;
+  --animate-aurora-gold: aurora-gold 24s ease-in-out infinite alternate;
+  --animate-aurora-left: aurora-left 30s ease-in-out infinite alternate;
   --animate-word-slide: word-slide 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-hero-text: fade-in-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-marquee: marquee 18s linear infinite;
 
   @keyframes float {
