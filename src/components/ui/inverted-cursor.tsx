@@ -95,6 +95,7 @@ export const Cursor: React.FC<CursorProps> = ({ size = 20 }) => {
   return (
     <div
       ref={cursorRef}
+      data-custom-cursor
       className="fixed pointer-events-none rounded-full bg-white mix-blend-difference z-[9999] flex items-center justify-center text-[10px] font-sans font-semibold tracking-widest text-black uppercase transition-[width,height,opacity] duration-300 ease-out"
       style={{
         width: currentSize,
