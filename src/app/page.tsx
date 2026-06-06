@@ -185,7 +185,7 @@ export default function Home() {
         <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-20">
           <section
             id="home"
-            className="min-h-[calc(100vh-6rem)] flex flex-col justify-end pb-12 sm:pb-20 relative"
+            className="min-h-[calc(100vh-6rem)] flex flex-col justify-center md:justify-end pt-8 md:pt-0 pb-12 md:pb-20 relative"
           >
             {/* Main Hero Layout Row - Flex container containing title */}
             <div className="w-full flex flex-col lg:flex-row lg:items-end">

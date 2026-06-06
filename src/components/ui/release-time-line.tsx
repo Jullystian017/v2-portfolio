@@ -223,8 +223,8 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
                 key={index}
                 className="relative flex flex-col md:flex-row items-start gap-6 md:gap-12 w-full md:w-[70vw] md:max-w-[850px] shrink-0"
               >
-                {/* Sticky meta column */}
-                <div className="flex h-min w-full md:w-64 shrink-0 items-center gap-4">
+                {/* Sticky meta column (Desktop only) */}
+                <div className="hidden md:flex h-min w-full md:w-64 shrink-0 items-center gap-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-white/5 text-white border border-white/10">
                       <entry.icon className="h-5 w-5" />
@@ -248,7 +248,7 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
                     <img
                       src={entry.image}
                       alt={`${entry.title} preview`}
-                      className="mb-4 w-full h-64 rounded-2xl object-cover border border-white/5"
+                      className="mb-4 w-full h-48 sm:h-64 rounded-2xl object-cover border border-white/5"
                       loading="lazy"
                       onLoad={() => {
                         ScrollTrigger.refresh();
@@ -258,6 +258,15 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
                   <div className="space-y-4">
                     {/* Header */}
                     <div className="space-y-2">
+                      {/* Mobile Meta Row (Mobile only) */}
+                      <div className="flex items-center gap-2 md:hidden mb-1">
+                        <div className="p-1.5 rounded-lg bg-white/5 text-white border border-white/10">
+                          <entry.icon className="h-3.5 w-3.5" />
+                        </div>
+                        <span className="text-[10px] text-zinc-500 font-mono tracking-tighter uppercase">
+                          {entry.subtitle}
+                        </span>
+                      </div>
                       <h3 className="text-lg font-medium leading-tight tracking-tight md:text-xl text-white">
                         {entry.title}
                       </h3>
@@ -287,7 +296,7 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
                             </div>
                           )}
 
-                          <div className="flex items-center justify-end gap-3">
+                          <div className="flex flex-wrap items-center justify-end gap-3">
                             {entry.githubUrl && (
                               <a
                                 href={entry.githubUrl}
