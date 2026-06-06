@@ -4,11 +4,9 @@ import React, { useState, useEffect } from "react";
 import {
   Globe,
   ExternalLink,
-  Code,
   Sparkles,
   Cpu,
   Layers,
-  Heart,
   Send,
   Flame,
   GraduationCap,
@@ -30,6 +28,7 @@ import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import CustomCursor from "@/components/ui/custom-cursor";
 import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
 import { CinematicFooter } from "@/components/ui/motion-footer";
+import ProjectsTimeline from "@/components/ui/release-time-line";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -72,7 +71,6 @@ interface Project {
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"all" | "frontend" | "backend" | "ai">("all");
 
   // Rotating words in the Hero section (with duplicate at end for infinite upward scroll)
   const heroWords = ["Startups", "You", "Brands", "Products", "Startups"];
@@ -97,78 +95,7 @@ export default function Home() {
     }
   }, [currentWordIdx]);
 
-  // Dynamic project showcase data
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: 1,
-      title: "Synthetix AI Engine",
-      description: "A state-of-the-art developer platform featuring real-time code generation, refactoring, and agentic orchestration workflows.",
-      category: "ai",
-      tags: ["Next.js 16", "TypeScript", "Google Gemini API", "Tailwind 4"],
-      likes: 42,
-      liked: false,
-      demoUrl: "https://github.com",
-      githubUrl: "https://github.com",
-      image: "linear-gradient(135deg, #f59e0b 0%, #ea580c 100%)", // Matches warm amber/orange mesh
-    },
-    {
-      id: 2,
-      title: "Nebula Commerce Dashboard",
-      description: "An ultra-premium analytical dashboard with real-time financial tracking, custom data visualization charts, and user behavior heatmaps.",
-      category: "frontend",
-      tags: ["React 19", "shadcn/ui", "Recharts", "Framer Motion"],
-      likes: 28,
-      liked: false,
-      demoUrl: "https://github.com",
-      githubUrl: "https://github.com",
-      image: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)", // Matches teal/blue mesh
-    },
-    {
-      id: 3,
-      title: "Hyperion Edge Sync",
-      description: "High-performance distributed database synchronization engine optimized for edge networks, yielding sub-millisecond latencies.",
-      category: "backend",
-      tags: ["Node.js", "Redis Edge", "gRPC", "PostgreSQL"],
-      likes: 19,
-      liked: false,
-      demoUrl: "https://github.com",
-      githubUrl: "https://github.com",
-      image: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)", // Matches magenta/purple mesh
-    },
-    {
-      id: 4,
-      title: "Visionary ML Playground",
-      description: "Interactive web canvas enabling real-time visual model training, dataset curation, and instant testing directly in the browser environment.",
-      category: "ai",
-      tags: ["TensorFlow.js", "Next.js", "WebAssembly", "Shadcn Layout"],
-      likes: 35,
-      liked: false,
-      demoUrl: "https://github.com",
-      githubUrl: "https://github.com",
-      image: "linear-gradient(135deg, #10b981 0%, #0d9488 100%)", // Matches green/teal mesh
-    }
-  ]);
 
-  // Toggle "Like" state for a project
-  const handleLike = (id: number) => {
-    setProjects(prevProjects =>
-      prevProjects.map(project => {
-        if (project.id === id) {
-          return {
-            ...project,
-            liked: !project.liked,
-            likes: project.liked ? project.likes - 1 : project.likes + 1
-          };
-        }
-        return project;
-      })
-    );
-  };
-
-  // Filtered projects selector
-  const filteredProjects = activeTab === "all"
-    ? projects
-    : projects.filter(p => p.category === activeTab);
 
   // Close menu drawer on anchor navigation
   const navigateTo = (id: string) => {
@@ -481,112 +408,7 @@ export default function Home() {
 
         {/* SECTION 2: PROJECTS */}
         <section id="projects" className="scroll-mt-12 flex flex-col gap-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
-            <div>
-              <h2 className="font-instrument font-medium text-3xl sm:text-5xl text-white tracking-tight">
-                Featured Works
-              </h2>
-              <p className="text-zinc-500 text-sm mt-2 font-light">
-                Curated compilation of software architectures and interface engines.
-              </p>
-            </div>
-
-            {/* Premium Filter Tabs */}
-            <div className="flex flex-wrap gap-1 bg-white/[0.02] border border-white/5 p-1 rounded-full w-fit">
-              {(["all", "frontend", "backend", "ai"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all duration-300 ${activeTab === tab
-                    ? "bg-white text-black shadow-lg scale-105"
-                    : "text-zinc-500 hover:text-white hover:bg-white/5"
-                    }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Grid Layout - Clean, minimalist 2x2 modular blocks */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProjects.map((project) => (
-              <Card
-                key={project.id}
-                className="bg-white/[0.01] border-white/5 backdrop-blur-md rounded-3xl overflow-hidden hover:border-white/15 hover:bg-white/[0.02] transition-all duration-500 flex flex-col group h-full shadow-2xl relative"
-              >
-
-                {/* Glow outline on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/0 via-teal-500/0 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-                {/* Project Visual Cover with modern gradient block */}
-                <div
-                  className="h-56 w-full relative transition-all duration-700 group-hover:scale-[1.01] flex items-center justify-center overflow-hidden"
-                  style={{ background: project.image }}
-                >
-                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
-                  <Code className="h-16 w-16 text-white/20 group-hover:text-white/40 backdrop-blur-md p-4 rounded-full border border-white/10 transition-colors duration-300" />
-
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-black/55 text-white border border-white/5 backdrop-blur-md uppercase text-[9px] font-medium tracking-wider py-1 px-2.5">
-                      {project.category}
-                    </Badge>
-                  </div>
-                </div>
-
-                <CardHeader className="p-6 pb-2">
-                  <CardTitle className="text-xl font-medium text-white flex items-center justify-between">
-                    {project.title}
-                    <div className="flex gap-2">
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="p-1 hover:scale-105 active:scale-95 transition-transform">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-white/5 hover:bg-white/10 text-zinc-400 hover:text-white">
-                          <Code className="h-4 w-4" />
-                        </Button>
-                      </a>
-                      <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="p-1 hover:scale-105 active:scale-95 transition-transform">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-white/5 hover:bg-white/10 text-zinc-400 hover:text-white">
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
-                      </a>
-                    </div>
-                  </CardTitle>
-                  <CardDescription className="text-zinc-500 text-sm font-normal line-clamp-2 mt-2 leading-relaxed">
-                    {project.description}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="px-6 py-4 flex-grow">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-md text-[10px] font-medium bg-white/[0.03] border border-white/[0.04] text-zinc-400 uppercase tracking-wider">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-
-                <CardFooter className="p-6 pt-4 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-xs text-zinc-600 font-light flex items-center gap-1.5">
-                    <ShieldCheck className="h-3.5 w-3.5 text-zinc-600" />
-                    Apache-2.0 Open Source
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleLike(project.id)}
-                    className={`rounded-full border text-xs gap-1.5 px-3 py-1.5 transition-all duration-300 ${project.liked
-                      ? "bg-rose-500/10 border-rose-500/20 text-rose-400 hover:bg-rose-500/20"
-                      : "border-white/5 text-zinc-400 hover:text-white hover:bg-white/5"
-                      }`}
-                  >
-                    <Heart className={`h-3.5 w-3.5 ${project.liked ? "fill-current" : ""}`} />
-                    <span>{project.likes}</span>
-                  </Button>
-                </CardFooter>
-
-              </Card>
-            ))}
-          </div>
+          <ProjectsTimeline />
         </section>
 
         {/* SECTION 3: SERVICES */}
