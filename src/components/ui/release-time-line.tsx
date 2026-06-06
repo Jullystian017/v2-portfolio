@@ -1,9 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, memo } from "react";
+import { useGSAP } from "@gsap/react";
 import { ArrowUpRight, ExternalLink, GraduationCap, Building, Gamepad2, UtensilsCrossed, Coins } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger safely
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -112,62 +120,90 @@ export const defaultEntries: ProjectEntry[] = [
   },
 ];
 
-/**
- * Behavior: Only the card that is currently centered in the viewport is "open".
- * As you scroll, the active card expands to reveal its full content. Others stay collapsed.
- */
-export default function ProjectsTimeline({
+const ProjectsTimeline = memo(function ProjectsTimeline({
   title = "Featured Projects & Works",
   description = "A curated collection of web applications, AI platforms, and online systems built with a focus on details, clean code, and premium performance.",
   entries = defaultEntries,
 }: ProjectsTimelineProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const sentinelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Create stable setters for refs inside map
-  const setItemRef = (el: HTMLDivElement | null, i: number) => {
-    itemRefs.current[i] = el;
-  };
-  const setSentinelRef = (el: HTMLDivElement | null, i: number) => {
-    sentinelRefs.current[i] = el;
-  };
+  useGSAP(() => {
+    // Only set up ScrollTrigger on larger screens (desktop)
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    if (!mediaQuery.matches) return;
 
-  useEffect(() => {
-    if (!sentinelRefs.current.length) return;
+    const section = sectionRef.current;
+    const pinEl = pinRef.current;
+    const scroll = scrollRef.current;
+    const container = containerRef.current;
+    if (!section || !pinEl || !scroll || !container) return;
 
-    let frame = 0;
-    const updateActiveByProximity = () => {
-      frame = requestAnimationFrame(updateActiveByProximity);
-      // Compute distance of each sentinel to viewport center
-      const centerY = window.innerHeight / 3;
-      let bestIndex = 0;
-      let bestDist = Infinity;
-      sentinelRefs.current.forEach((node, i) => {
-        if (!node) return;
-        const rect = node.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        const dist = Math.abs(mid - centerY);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIndex = i;
-        }
-      });
-      if (bestIndex !== activeIndex) setActiveIndex(bestIndex);
+    const getScrollAmount = () => {
+      const rect = container.getBoundingClientRect();
+      const style = window.getComputedStyle(container);
+      const paddingLeft = parseFloat(style.paddingLeft) || 0;
+      const leftOffset = rect.left + paddingLeft;
+      return -(scroll.scrollWidth - window.innerWidth + leftOffset);
     };
 
-    frame = requestAnimationFrame(updateActiveByProximity);
-    return () => cancelAnimationFrame(frame);
-  }, [activeIndex]);
+    gsap.to(scroll, {
+      x: getScrollAmount,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        pin: pinEl,
+        start: "top top",
+        end: () => {
+          const rect = container.getBoundingClientRect();
+          const style = window.getComputedStyle(container);
+          const paddingLeft = parseFloat(style.paddingLeft) || 0;
+          const leftOffset = rect.left + paddingLeft;
+          return `+=${scroll.scrollWidth - window.innerWidth + leftOffset}`;
+        },
+        scrub: 1,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+      },
+    });
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, []);
+    // Refresh ScrollTrigger when everything is loaded
+    const refreshTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("load", refreshTrigger);
+    
+    // Fallback timeouts to capture any late layout changes or hydration shifts
+    const timer1 = setTimeout(refreshTrigger, 200);
+    const timer2 = setTimeout(refreshTrigger, 800);
+    const timer3 = setTimeout(refreshTrigger, 2000);
+
+    return () => {
+      window.removeEventListener("load", refreshTrigger);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, { scope: sectionRef });
 
   return (
-    <section className="py-20 w-full bg-transparent text-neutral-200">
-      <div className="w-full">
-        <div className="mx-auto max-w-3xl border-b border-white/5 pb-8 mb-10">
+    <section 
+      ref={sectionRef} 
+      className="relative w-full bg-transparent text-neutral-200 overflow-x-clip py-12 sm:py-20 md:py-0"
+    >
+      <div 
+        ref={pinRef}
+        className="w-full h-full md:h-screen md:flex md:items-center"
+      >
+        <div 
+          ref={containerRef}
+          className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative md:h-full md:flex md:flex-col md:justify-center"
+        >
+        {/* Section Header */}
+        <div className="md:absolute md:top-12 md:left-8 md:z-10 w-full border-b border-white/5 pb-8 mb-10 md:mb-0 max-w-3xl">
           <h2 className="font-instrument font-medium text-3xl sm:text-5xl text-white tracking-tight">
             {title}
           </h2>
@@ -176,51 +212,37 @@ export default function ProjectsTimeline({
           </p>
         </div>
 
-        <div className="mx-auto mt-16 max-w-3xl space-y-16 md:mt-24 md:space-y-24">
+        {/* Horizontal Scroll Track */}
+        <div 
+          ref={scrollRef}
+          className="flex flex-col md:flex-row items-stretch md:items-center gap-16 md:gap-24 mt-8 md:mt-0 md:pt-40 w-full md:w-max"
+        >
           {entries.map((entry, index) => {
-            const isActive = index === activeIndex;
-
             return (
               <div
                 key={index}
-                className="relative flex flex-col gap-4 md:flex-row md:gap-16"
-                ref={(el) => setItemRef(el, index)}
-                aria-current={isActive ? "true" : "false"}
+                className="relative flex flex-col md:flex-row items-start gap-6 md:gap-12 w-full md:w-[70vw] md:max-w-[850px] shrink-0"
               >
                 {/* Sticky meta column */}
-                <div className="top-8 flex h-min w-64 shrink-0 items-center gap-4 md:sticky">
+                <div className="flex h-min w-full md:w-64 shrink-0 items-center gap-4">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2.5 rounded-xl transition-colors duration-300 ${
-                      isActive ? "bg-white text-black shadow-lg" : "bg-white/5 text-zinc-500 border border-white/5"
-                    }`}>
+                    <div className="p-2.5 rounded-xl bg-white/5 text-white border border-white/10">
                       <entry.icon className="h-5 w-5" />
                     </div>
                     <div className="flex flex-col">
-                      <span className={`text-sm font-medium transition-colors duration-300 ${isActive ? "text-white" : "text-zinc-400"}`}>
+                      <span className="text-sm font-medium text-white">
                         {entry.title}
                       </span>
-                      <span className="text-xs text-zinc-600 font-mono tracking-tighter">
+                      <span className="text-xs text-zinc-500 font-mono tracking-tighter">
                         {entry.subtitle}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Invisible sentinel near the card title to measure proximity to viewport center */}
-                <div
-                  ref={(el) => setSentinelRef(el, index)}
-                  aria-hidden
-                  className="absolute -top-24 left-0 h-12 w-12 opacity-0"
-                />
-
                 {/* Content column */}
                 <article
-                  className={
-                    "flex flex-col rounded-3xl border p-4 transition-all duration-500 " +
-                    (isActive
-                      ? "border-white/15 bg-white/[0.02] shadow-2xl backdrop-blur-md"
-                      : "border-white/5 bg-white/[0.005] opacity-50")
-                  }
+                  className="flex flex-col flex-1 w-full rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl backdrop-blur-md p-4 transition-all duration-300"
                 >
                   {entry.image && (
                     <img
@@ -228,43 +250,25 @@ export default function ProjectsTimeline({
                       alt={`${entry.title} preview`}
                       className="mb-4 w-full h-64 rounded-2xl object-cover border border-white/5"
                       loading="lazy"
+                      onLoad={() => {
+                        ScrollTrigger.refresh();
+                      }}
                     />
                   )}
                   <div className="space-y-4">
-                    {/* Header with improved typography */}
+                    {/* Header */}
                     <div className="space-y-2">
-                      <h3
-                        className={
-                          "text-lg font-medium leading-tight tracking-tight md:text-xl transition-colors duration-200 " +
-                          (isActive ? "text-white" : "text-zinc-400")
-                        }
-                      >
+                      <h3 className="text-lg font-medium leading-tight tracking-tight md:text-xl text-white">
                         {entry.title}
                       </h3>
                       
-                      {/* Improved description with better spacing */}
-                      <p
-                        className={
-                          "text-xs leading-relaxed md:text-sm transition-all duration-300 " +
-                          (isActive 
-                            ? "text-zinc-400 line-clamp-none font-light" 
-                            : "text-zinc-500 line-clamp-2 font-light")
-                        }
-                      >
+                      <p className="text-xs leading-relaxed md:text-sm text-zinc-400 font-light">
                         {entry.description}
                       </p>
                     </div>
 
-                    {/* Enhanced expandable content */}
-                    <div
-                      aria-hidden={!isActive}
-                      className={
-                        "grid transition-all duration-500 ease-out " +
-                        (isActive 
-                          ? "grid-rows-[1fr] opacity-100" 
-                          : "grid-rows-[0fr] opacity-0")
-                      }
-                    >
+                    {/* Content lists and buttons */}
+                    <div className="grid grid-rows-[1fr] opacity-100">
                       <div className="overflow-hidden">
                         <div className="space-y-5 pt-2">
                           {entry.items && entry.items.length > 0 && (
@@ -325,6 +329,9 @@ export default function ProjectsTimeline({
           })}
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
-}
+});
+
+export default ProjectsTimeline;

@@ -403,13 +403,13 @@ export default function Home() {
         </FlowSection>
       </FlowArt>
 
+      {/* SECTION 2: PROJECTS (Moved outside main container to allow full-width desktop pinning without layout shifting) */}
+      <section id="projects" className="w-full relative z-20 bg-[#050506] scroll-mt-24">
+        <ProjectsTimeline />
+      </section>
+
       {/* Main container for other sections (standard scroll) */}
       <main className="w-full max-w-8xl mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-20 flex flex-col gap-24 sm:gap-32 relative z-20 bg-[#050506]">
-
-        {/* SECTION 2: PROJECTS */}
-        <section id="projects" className="scroll-mt-12 flex flex-col gap-10">
-          <ProjectsTimeline />
-        </section>
 
         {/* SECTION 3: SERVICES */}
         <section id="services" className="scroll-mt-12 flex flex-col gap-10">
