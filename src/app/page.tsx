@@ -348,10 +348,11 @@ export default function Home() {
             {/* 1. Centered Strategic Statement Paragraph with Scroll Reveal */}
             <h2 className="font-jakarta font-medium text-3xl sm:text-5xl lg:text-[3.8rem] lg:leading-[1.1] tracking-tight text-white max-w-3xl mx-auto select-none">
               {[
-                "At", "Jullystian©", "simplicity",
-                "meets", "strategy", "to", "craft",
-                "bold,", "intuitive", "websites",
-                "that", "bring", "your", "vision",
+                "Hello,", "I,m", "Jullystian",
+                "I", "design", "and", "build",
+                "digital", "products", "with",
+                "intuitive","UI", "and", "UX",
+                "bring", "your", "vision",
                 "to", "life."
               ].map((word, idx) => (
                 <React.Fragment key={idx}>
@@ -394,7 +395,7 @@ export default function Home() {
         <section id="services" className="scroll-mt-12 flex flex-col gap-10">
           <div className="border-b border-white/5 pb-8">
             <h2 className="font-instrument font-medium text-3xl sm:text-5xl text-white tracking-tight">
-              Design & Architecture Services
+              Services
             </h2>
             <p className="text-zinc-500 text-sm mt-2 font-light">
               High-performance solutions designed to solve critical engineering challenges.

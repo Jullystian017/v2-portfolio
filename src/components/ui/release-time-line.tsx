@@ -50,9 +50,9 @@ export const defaultEntries: ProjectEntry[] = [
       "Progress tracking dashboard with interactive charts",
     ],
     image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop",
+      "/Screenshot 2026-04-30 221346.png",
     demoUrl: "https://pathly-six.vercel.app/",
-    githubUrl: "https://github.com/Jullystian017",
+    githubUrl: "https://github.com/Jullystian017/Pathly",
   },
   {
     icon: Building,
@@ -66,9 +66,9 @@ export const defaultEntries: ProjectEntry[] = [
       "Advanced dashboard with analytics and contact pipeline",
     ],
     image:
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1000&auto=format&fit=crop",
+      "/Screenshot 2026-06-06 220128.png",
     demoUrl: "https://nusaestate.vercel.app/",
-    githubUrl: "https://github.com/Jullystian017",
+    githubUrl: "https://github.com/Jullystian017/Nusaestate",
   },
   {
     icon: Gamepad2,
@@ -82,9 +82,9 @@ export const defaultEntries: ProjectEntry[] = [
       "Multiplayer developer parties and achievements system",
     ],
     image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop",
+      "/Screenshot 2026-03-21 215446.png",
     demoUrl: "https://lifequest.web.id/",
-    githubUrl: "https://github.com/Jullystian017",
+    githubUrl: "https://github.com/Jullystian017/Lifequest",
   },
   {
     icon: UtensilsCrossed,
@@ -98,9 +98,9 @@ export const defaultEntries: ProjectEntry[] = [
       "Advanced admin dashboard for dish catalog management",
     ],
     image:
-      "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop",
+      "/Screenshot 2026-06-06 220441.png",
     demoUrl: "https://takumaeat.vercel.app/",
-    githubUrl: "https://github.com/Jullystian017",
+    githubUrl: "https://github.com/Jullystian017/TakumaEat",
   },
   {
     icon: Coins,
@@ -114,14 +114,14 @@ export const defaultEntries: ProjectEntry[] = [
       "Clean interactive charts for transaction categorization",
     ],
     image:
-      "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1000&auto=format&fit=crop",
+      "/Screenshot 2026-02-20 124416.png",
     demoUrl: "https://cashmind-chi.vercel.app/",
-    githubUrl: "https://github.com/Jullystian017",
+    githubUrl: "https://github.com/Jullystian017/cashmind",
   },
 ];
 
 const ProjectsTimeline = memo(function ProjectsTimeline({
-  title = "Featured Projects & Works",
+  title = "Featured Projects",
   description = "A curated collection of web applications, AI platforms, and online systems built with a focus on details, clean code, and premium performance.",
   entries = defaultEntries,
 }: ProjectsTimelineProps) {
