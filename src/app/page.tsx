@@ -1,6 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 import {
   Globe,
   ExternalLink,
@@ -31,19 +38,11 @@ import { CinematicFooter } from "@/components/ui/motion-footer";
 import ProjectsTimeline from "@/components/ui/release-time-line";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
-const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="10" />
-    <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.49-11.05 1-11.6 8.56" />
-  </svg>
-);
-
-const BehanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M12 12a3 3 0 0 0-3-3H4v6h5a3 3 0 0 0 3-3z" />
-    <path d="M9 9a3 3 0 0 0-3-3H4v6h2a3 3 0 0 0 3-3z" />
-    <path d="M14 12h7" />
-    <path d="M14 9h7a3 3 0 0 0-6 0z" />
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 );
 
@@ -71,6 +70,7 @@ interface Project {
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const aboutContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Rotating words in the Hero section (with duplicate at end for infinite upward scroll)
   const heroWords = ["Startups", "You", "Brands", "Products", "Startups"];
@@ -94,8 +94,26 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [currentWordIdx]);
+  // GSAP scroll-reveal animation for the about section words
+  useGSAP(() => {
+    if (!aboutContainerRef.current) return;
 
-
+    gsap.fromTo(
+      ".about-reveal-word",
+      { color: "rgba(255, 255, 255, 0.15)" },
+      {
+        color: "rgba(255, 255, 255, 1)",
+        stagger: 0.1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: aboutContainerRef.current,
+          start: "top 70%",
+          end: "bottom 30%",
+          scrub: true,
+        },
+      }
+    );
+  }, { scope: aboutContainerRef });
 
   // Close menu drawer on anchor navigation
   const navigateTo = (id: string) => {
@@ -177,20 +195,12 @@ export default function Home() {
                 {/* Absolute Socials stacked vertically, perfectly centered relative to the title's vertical height */}
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-6 z-30">
                   <a
-                    href="https://dribbble.com"
+                    href="https://instagram.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-400 hover:text-white transition-colors duration-300"
                   >
-                    <DribbbleIcon className="h-5.5 w-5.5" />
-                  </a>
-                  <a
-                    href="https://behance.net"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-400 hover:text-white transition-colors duration-300"
-                  >
-                    <BehanceIcon className="h-5.5 w-5.5" />
+                    <InstagramIcon className="h-5.5 w-5.5" />
                   </a>
                   <a
                     href="https://linkedin.com"
@@ -313,11 +323,8 @@ export default function Home() {
           </nav>
 
           <div className="mt-16 w-full max-w-xs border-t border-white/5 pt-8 flex justify-center gap-8">
-            <a href="https://dribbble.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
-              <DribbbleIcon className="h-5 w-5" />
-            </a>
-            <a href="https://behance.net" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
-              <BehanceIcon className="h-5 w-5" />
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
+              <InstagramIcon className="h-5 w-5" />
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-300">
               <LinkedInIcon className="h-5 w-5" />
@@ -336,67 +343,39 @@ export default function Home() {
           className="flex items-center justify-center"
         >
           {/* Main typography container */}
-          <div className="relative max-w-3xl mx-auto text-center z-10 px-4 my-auto">
+          <div ref={aboutContainerRef} className="relative max-w-4xl mx-auto text-center z-10 px-4 my-auto">
 
-            {/* 1. Centered Strategic Statement Paragraph */}
+            {/* 1. Centered Strategic Statement Paragraph with Scroll Reveal */}
             <h2 className="font-jakarta font-medium text-3xl sm:text-5xl lg:text-[3.8rem] lg:leading-[1.1] tracking-tight text-white max-w-3xl mx-auto select-none">
-              At Jullystian© simplicity <br className="hidden sm:inline" />
-              meets strategy to craft <br className="hidden sm:inline" />
-              bold, intuitive websites <br className="hidden sm:inline" />
-              that b<span className="text-zinc-600">ring your vision</span> <br />
-              <span className="text-zinc-600">to life.</span>
+              {[
+                "At", "Jullystian©", "simplicity",
+                "meets", "strategy", "to", "craft",
+                "bold,", "intuitive", "websites",
+                "that", "bring", "your", "vision",
+                "to", "life."
+              ].map((word, idx) => (
+                <React.Fragment key={idx}>
+                  <span className="about-reveal-word inline-block mr-[0.25em] text-white/15">
+                    {word}
+                  </span>
+                  {idx === 2 && <br className="hidden sm:inline" />}
+                  {idx === 6 && <br className="hidden sm:inline" />}
+                  {idx === 9 && <br className="hidden sm:inline" />}
+                  {idx === 13 && <br className="hidden sm:inline" />}
+                </React.Fragment>
+              ))}
             </h2>
 
-            {/* 2. Lowercase contact button matching the outline menu button style */}
+            {/* 2. Lowercase contact button matching the outline menu button style pointing to WhatsApp */}
             <div className="mt-12 sm:mt-16 flex flex-col items-center select-none">
-              <button
-                onClick={() => navigateTo("contact")}
+              <a
+                href="https://wa.me/6285798051625"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white text-xs sm:text-sm font-sans tracking-widest lowercase px-8 py-3.5 border border-white/20 rounded-lg bg-transparent hover:bg-white hover:text-black hover:border-white transition-all duration-300 cursor-pointer flex items-center gap-2 font-light"
               >
                 contact me <span className="text-[10px] sm:text-xs">↗</span>
-              </button>
-            </div>
-
-            {/* 3. Floating, rotated artistic photos framing the typography */}
-            {/* Top-Left Portrait */}
-            <div className="absolute -top-12 -left-12 sm:-top-16 sm:-left-20 lg:-top-24 lg:-left-28 w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[-8deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img
-                src="/nyro_portrait_1.png"
-                alt="Studio portrait 1"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Top-Right Portrait */}
-            <div className="absolute -top-16 -right-12 sm:-top-24 sm:-right-20 lg:-top-32 lg:-right-28 w-28 h-28 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img
-                src="/nyro_portrait_2.png"
-                alt="Studio portrait 2"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Bottom-Left Portrait */}
-            <div className="absolute -bottom-16 -left-10 sm:-bottom-24 sm:-left-16 lg:-bottom-32 lg:-left-24 w-28 h-28 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[-6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img
-                src="/nyro_portrait_3.png"
-                alt="Studio portrait 3"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Bottom-Right Portrait */}
-            <div className="absolute -bottom-12 -right-8 sm:-bottom-16 sm:-right-12 lg:-bottom-20 lg:-right-16 w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-xl overflow-hidden border border-white/10 shadow-2xl rotate-[8deg] hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out select-none">
-              <img
-                src="/nyro_portrait_4.png"
-                alt="Studio portrait 4"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Subtle decorative dot floating on the right side */}
-            <div className="absolute -right-16 sm:-right-24 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none select-none">
-              <span className="h-2 w-2 rounded-full bg-white opacity-85 shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+              </a>
             </div>
 
           </div>
