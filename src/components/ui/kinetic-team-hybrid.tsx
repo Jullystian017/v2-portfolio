@@ -30,7 +30,7 @@ const SERVICES: ServiceItem[] = [
   {
     id: '02',
     name: 'Web Development',
-    role: 'Next.js & Frontend Engineering',
+    role: 'Frontend & Backend Engineering',
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
   },
   {

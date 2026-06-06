@@ -203,7 +203,7 @@ function ProjectModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:rotate-90 transition-all duration-300 cursor-pointer active:scale-90"
+          className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white hover:bg-zinc-800 hover:border-zinc-600 hover:rotate-90 transition-all duration-300 cursor-pointer active:scale-90 shadow-lg"
           aria-label="Close details"
         >
           <X className="h-5 w-5" />
@@ -228,6 +228,50 @@ function ProjectModal({
 
         {/* ── CONTENT (scrollable) ── */}
         <div className="flex flex-col overflow-y-auto p-6 sm:p-8 gap-5">
+
+          {/* ── ACTION BUTTONS — at the top ── */}
+          <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-white/5 shrink-0">
+            {/* GitHub */}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  "group/btn relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-normal",
+                  "border border-white/10 bg-white/[0.03] text-zinc-300 overflow-hidden",
+                  "transition-all duration-300",
+                  "hover:border-white/30 hover:text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]",
+                  "active:scale-95 cursor-pointer"
+                )}
+              >
+                <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
+                <GithubIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-12" />
+                <span>GitHub</span>
+              </a>
+            )}
+            {/* Live Demo */}
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  "group/btn relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-normal",
+                  "bg-white text-black overflow-hidden",
+                  "transition-all duration-300",
+                  "hover:bg-zinc-100 hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-[1.03]",
+                  "active:scale-95 cursor-pointer"
+                )}
+              >
+                <span className="absolute inset-0 rounded-xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-white/20 via-white/5 to-white/20 pointer-events-none" />
+                <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
+                <span>Live Demo</span>
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
+              </a>
+            )}
+          </div>
+
           {/* Header */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -269,50 +313,6 @@ function ProjectModal({
               </div>
             </div>
           )}
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/5 shrink-0 mt-auto">
-            {/* GitHub */}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  "group/btn relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-normal",
-                  "border border-white/10 bg-white/[0.03] text-zinc-300 overflow-hidden",
-                  "transition-all duration-300",
-                  "hover:border-white/30 hover:text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]",
-                  "active:scale-95 cursor-pointer"
-                )}
-              >
-                <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
-                <GithubIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-12" />
-                <span>GitHub</span>
-              </a>
-            )}
-
-            {/* Live Demo */}
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  "group/btn relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-normal",
-                  "bg-white text-black overflow-hidden",
-                  "transition-all duration-300",
-                  "hover:bg-zinc-100 hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-[1.03]",
-                  "active:scale-95 cursor-pointer"
-                )}
-              >
-                <span className="absolute inset-0 rounded-xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-white/20 via-white/5 to-white/20 pointer-events-none" />
-                <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
-                <span>Live Demo</span>
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
-              </a>
-            )}
-          </div>
         </div>
       </div>
     </div>,
@@ -428,14 +428,16 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
                   className="relative flex flex-col w-full md:w-[38vw] md:max-w-[520px] shrink-0 group cursor-pointer active:scale-[0.99] transition-all duration-300"
                 >
                   <article className="flex flex-col flex-1 w-full rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/[0.04]">
-                    {/* Full image, no crop */}
+                    {/* Fixed-height image container — uniform across all cards */}
                     {entry.image && (
-                      <div className="w-full bg-black/30 overflow-hidden flex items-center justify-center">
+                      <div
+                        className="w-full bg-black/30 overflow-hidden flex items-center justify-center shrink-0"
+                        style={{ height: "260px" }}
+                      >
                         <img
                           src={entry.image}
                           alt={`${entry.title} preview`}
-                          className="w-full h-auto block object-contain transform transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                          style={{ maxHeight: "320px" }}
+                          className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                           loading="lazy"
                           onLoad={() => ScrollTrigger.refresh()}
                         />
