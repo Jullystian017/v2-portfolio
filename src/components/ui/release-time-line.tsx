@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, memo } from "react";
+import React, { useRef, memo, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight, ExternalLink, GraduationCap, Building, Gamepad2, UtensilsCrossed, Coins } from "lucide-react";
+import { ArrowUpRight, ExternalLink, GraduationCap, Building, Gamepad2, UtensilsCrossed, Coins, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { gsap } from "gsap";
@@ -130,6 +130,34 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [activeProject, setActiveProject] = useState<ProjectEntry | null>(null);
+
+  useEffect(() => {
+    if (!activeProject) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveProject(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeProject]);
+
+  useEffect(() => {
+    if (activeProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeProject]);
+
   useGSAP(() => {
     // Only set up ScrollTrigger on larger screens (desktop)
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -146,6 +174,7 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
       const style = window.getComputedStyle(container);
       const paddingLeft = parseFloat(style.paddingLeft) || 0;
       const leftOffset = rect.left + paddingLeft;
+      // Subtract leftOffset from both sides so last card stops flush with where first card started
       return -(scroll.scrollWidth - window.innerWidth + leftOffset);
     };
 
@@ -215,129 +244,194 @@ const ProjectsTimeline = memo(function ProjectsTimeline({
         {/* Horizontal Scroll Track */}
         <div 
           ref={scrollRef}
-          className="flex flex-col md:flex-row items-stretch md:items-center gap-16 md:gap-24 mt-8 md:mt-0 md:pt-40 w-full md:w-max"
+          className="flex flex-col md:flex-row items-stretch md:items-center gap-6 md:gap-8 mt-8 md:mt-0 md:pt-40 w-full md:w-max"
         >
           {entries.map((entry, index) => {
             return (
               <div
                 key={index}
-                className="relative flex flex-col md:flex-row items-start gap-6 md:gap-12 w-full md:w-[70vw] md:max-w-[850px] shrink-0"
+                data-cursor="open"
+                onClick={() => setActiveProject(entry)}
+                className="relative flex flex-col w-full md:w-[35vw] md:max-w-[480px] shrink-0 group cursor-pointer active:scale-[0.99] transition-all duration-300"
               >
-                {/* Sticky meta column (Desktop only) */}
-                <div className="hidden md:flex h-min w-full md:w-64 shrink-0 items-center gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-white border border-white/10">
-                      <entry.icon className="h-5 w-5" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium text-white">
-                        {entry.title}
-                      </span>
-                      <span className="text-xs text-zinc-500 font-mono tracking-tighter">
-                        {entry.subtitle}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Content column */}
                 <article
-                  className="flex flex-col flex-1 w-full rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl backdrop-blur-md p-4 transition-all duration-300"
+                  className="flex flex-col flex-1 w-full rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl backdrop-blur-md p-4 transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/[0.04]"
                 >
                   {entry.image && (
-                    <img
-                      src={entry.image}
-                      alt={`${entry.title} preview`}
-                      className="mb-4 w-full h-48 sm:h-64 rounded-2xl object-cover border border-white/5"
-                      loading="lazy"
-                      onLoad={() => {
-                        ScrollTrigger.refresh();
-                      }}
-                    />
+                    <div className="overflow-hidden rounded-2xl border border-white/5 mb-4">
+                      <img
+                        src={entry.image}
+                        alt={`${entry.title} preview`}
+                        className="w-full h-56 sm:h-72 md:h-[380px] object-cover transform transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                        loading="lazy"
+                        onLoad={() => {
+                          ScrollTrigger.refresh();
+                        }}
+                      />
+                    </div>
                   )}
                   <div className="space-y-4">
                     {/* Header */}
                     <div className="space-y-2">
-                      {/* Mobile Meta Row (Mobile only) */}
-                      <div className="flex items-center gap-2 md:hidden mb-1">
-                        <div className="p-1.5 rounded-lg bg-white/5 text-white border border-white/10">
-                          <entry.icon className="h-3.5 w-3.5" />
+                      {/* Mobile Meta Row */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className="p-1.5 rounded-lg bg-white/5 text-white border border-white/10">
+                            <entry.icon className="h-3.5 w-3.5" />
+                          </div>
+                          <span className="text-[10px] text-zinc-500 font-mono tracking-tighter uppercase">
+                            {entry.subtitle}
+                          </span>
                         </div>
-                        <span className="text-[10px] text-zinc-500 font-mono tracking-tighter uppercase">
-                          {entry.subtitle}
+                        <span className="text-[10px] text-zinc-500 font-sans tracking-wide block md:hidden">
+                          tap to open ↗
                         </span>
                       </div>
+                      
                       <h3 className="text-lg font-medium leading-tight tracking-tight md:text-xl text-white">
                         {entry.title}
                       </h3>
                       
-                      <p className="text-xs leading-relaxed md:text-sm text-zinc-400 font-light">
+                      <p className="text-xs leading-relaxed md:text-sm text-zinc-400 font-light line-clamp-2">
                         {entry.description}
                       </p>
-                    </div>
-
-                    {/* Content lists and buttons */}
-                    <div className="grid grid-rows-[1fr] opacity-100">
-                      <div className="overflow-hidden">
-                        <div className="space-y-5 pt-2">
-                          {entry.items && entry.items.length > 0 && (
-                            <div className="rounded-2xl border border-white/5 bg-black/20 p-4">
-                              <ul className="space-y-2.5">
-                                {entry.items.map((item, itemIndex) => (
-                                  <li 
-                                    key={itemIndex} 
-                                    className="flex items-start gap-2.5 text-xs text-zinc-400"
-                                  >
-                                    <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-teal-400 flex-shrink-0" />
-                                    <span className="leading-relaxed font-light">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          <div className="flex flex-wrap items-center justify-end gap-3">
-                            {entry.githubUrl && (
-                              <a
-                                href={entry.githubUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className={cn(
-                                  buttonVariants({ variant: "outline", size: "sm" }),
-                                  "border-white/10 hover:bg-white/5 hover:text-white rounded-xl text-xs flex items-center gap-1.5 font-normal transition-all duration-200"
-                                )}
-                              >
-                                <GithubIcon className="h-3.5 w-3.5" />
-                                GitHub
-                              </a>
-                            )}
-
-                            {entry.demoUrl && (
-                              <a
-                                href={entry.demoUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className={cn(
-                                  buttonVariants({ variant: "default", size: "sm" }),
-                                  "bg-white text-black hover:bg-zinc-200 rounded-xl text-xs flex items-center gap-1.5 font-normal transition-all duration-200 cursor-pointer"
-                                )}
-                              >
-                                <ExternalLink className="h-3.5 w-3.5" />
-                                Live Demo
-                                <ArrowUpRight className="ml-0.5 h-3 w-3" />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </article>
               </div>
             );
           })}
+          {/* Trailing spacer so last card stops flush at scroll end */}
+          <div className="hidden md:block shrink-0 w-[8vw]" aria-hidden="true" />
         </div>
       </div>
+
+      {/* Glassmorphic Project Details Modal */}
+      {activeProject && (
+        <div 
+          className="fixed inset-0 z-[10000] select-none cursor-auto animate-in fade-in duration-300"
+          aria-modal="true"
+          role="dialog"
+        >
+          {/* Full-screen backdrop blur — must be a direct child of fixed inset-0 with no padding */}
+          <div 
+            className="absolute inset-0 bg-black/85 backdrop-blur-md"
+            onClick={() => setActiveProject(null)}
+          />
+          {/* Centering wrapper above the backdrop */}
+          <div className="relative z-10 flex items-center justify-center w-full h-full p-4 sm:p-6 md:p-10">
+
+          {/* Modal Container */}
+          <div 
+            className="relative w-full max-w-4xl bg-[#09090b]/95 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] animate-in zoom-in-95 duration-300 ease-out"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setActiveProject(null)}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 p-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:rotate-90 transition-all duration-300 cursor-pointer active:scale-90"
+              aria-label="Close details"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Left Visual Column */}
+            {activeProject.image && (
+              <div className="w-full md:w-1/2 h-48 sm:h-64 md:h-auto relative shrink-0 border-b md:border-b-0 md:border-r border-white/5 overflow-hidden">
+                <img
+                  src={activeProject.image}
+                  alt={`${activeProject.title} detail`}
+                  className="w-full h-full object-cover"
+                />
+                {/* Visual overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/40 via-transparent to-[#09090b]/80" />
+              </div>
+            )}
+
+            {/* Right Information Column */}
+            <div className="flex-grow flex flex-col overflow-y-auto max-h-[50vh] md:max-h-[85vh] p-6 sm:p-8 md:p-10">
+              <div className="space-y-6 flex-grow">
+                {/* Header */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-xl bg-white/5 text-rose-400 border border-white/10">
+                      <activeProject.icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs text-zinc-500 font-mono tracking-tighter uppercase">
+                      {activeProject.subtitle}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                    {activeProject.title}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm leading-relaxed text-zinc-400 font-light">
+                  {activeProject.description}
+                </p>
+
+                {/* Feature/Items bullet lists */}
+                {activeProject.items && activeProject.items.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                      Key Features
+                    </h4>
+                    <div className="rounded-2xl border border-white/5 bg-black/40 p-5">
+                      <ul className="space-y-3">
+                        {activeProject.items.map((item, itemIndex) => (
+                          <li 
+                            key={itemIndex} 
+                            className="flex items-start gap-3 text-xs sm:text-sm text-zinc-300"
+                          >
+                            <div className="mt-2 h-1.5 w-1.5 rounded-full bg-rose-400 flex-shrink-0" />
+                            <span className="leading-relaxed font-light">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center justify-end gap-3 mt-8 pt-4 border-t border-white/5 shrink-0">
+                {activeProject.githubUrl && (
+                  <a
+                    href={activeProject.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "default" }),
+                      "border-white/10 hover:bg-white/5 hover:text-white rounded-xl text-xs sm:text-sm flex items-center gap-2 font-normal transition-all duration-200"
+                    )}
+                  >
+                    <GithubIcon className="h-4 w-4" />
+                    GitHub
+                  </a>
+                )}
+
+                {activeProject.demoUrl && (
+                  <a
+                    href={activeProject.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cn(
+                      buttonVariants({ variant: "default", size: "default" }),
+                      "bg-white text-black hover:bg-zinc-200 rounded-xl text-xs sm:text-sm flex items-center gap-2 font-normal transition-all duration-200 cursor-pointer"
+                    )}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Live Demo
+                    <ArrowUpRight className="ml-0.5 h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      )}
     </div>
   </section>
   );
