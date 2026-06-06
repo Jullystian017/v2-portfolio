@@ -30,6 +30,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import CustomCursor from "@/components/ui/custom-cursor";
+import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const DribbbleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -645,41 +646,12 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Grid list of services */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-            {services.map((svc, index) => (
-              <Card key={index} className="bg-white/[0.01] border-white/5 backdrop-blur-md rounded-3xl p-8 flex flex-col justify-between hover:border-white/10 hover:bg-white/[0.02] transition-all duration-500 group shadow-lg">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-between items-center">
-                    <div className="h-10 w-10 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                      {svc.icon}
-                    </div>
-                    <span className="font-instrument font-medium text-2xl text-teal-400">{svc.level}%</span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-medium text-white mt-2 group-hover:text-teal-300 transition-colors">{svc.name}</h3>
-                    <p className="text-zinc-500 text-sm font-light mt-3 leading-relaxed">{svc.desc}</p>
-                  </div>
-                </div>
-
-                <div className="mt-8 flex flex-col gap-2">
-                  <div className="h-1.5 w-full bg-zinc-900 border border-white/5 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 rounded-full transition-all duration-1000"
-                      style={{ width: `${svc.level}%` }}
-                    />
-                  </div>
-                  <span className="text-[10px] text-zinc-600 font-medium tracking-widest uppercase mt-1">System Competency Score</span>
-                </div>
-              </Card>
-            ))}
-          </div>
+          <KineticServicesList />
 
           <div className="p-6 rounded-3xl bg-white/[0.01] border border-white/5 text-zinc-500 text-sm font-light leading-relaxed flex items-center gap-4">
             <Terminal className="h-5 w-5 text-teal-500 shrink-0" />
             <span>
-              Proactive engineer specialized in asynchronous event-driven queues, serverless RESTful routing protocols, and multi-tenant authentication patterns.
+              Proactive engineer specialized in high-fidelity user interface design, modern full-stack web applications, and responsive native mobile interfaces.
             </span>
           </div>
         </section>
