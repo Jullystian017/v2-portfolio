@@ -32,7 +32,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
-import CustomCursor from "@/components/ui/custom-cursor";
+import Cursor from "@/components/ui/inverted-cursor";
 import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
 import { CinematicFooter } from "@/components/ui/motion-footer";
 import ProjectsTimeline from "@/components/ui/release-time-line";
@@ -130,7 +130,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#050506] text-[#f3f4f6] font-sans selection:bg-teal-500/30 selection:text-teal-200 relative overflow-x-hidden flex flex-col">
-      <CustomCursor />
+      <Cursor />
 
       {/* FLOW ART - wraps only Hero and About */}
       <FlowArt aria-label="Jullystian Portfolio Presentation" className="relative z-20 flex-1">

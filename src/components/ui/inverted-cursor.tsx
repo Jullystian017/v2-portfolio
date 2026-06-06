@@ -6,14 +6,13 @@ interface CursorProps {
   size?: number;
 }
 
-export const Cursor: React.FC<CursorProps> = ({ size = 60 }) => {
+export const Cursor: React.FC<CursorProps> = ({ size = 20 }) => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>(0);
   const previousPos = useRef({ x: -size, y: -size }); // start off-screen
-  const targetPos = useRef({ x: -size, y: -size });
   
   const [visible, setVisible] = useState(false);
-  const [hasMouse, setHasMouse] = useState(false);
+  const [position, setPosition] = useState({ x: -size, y: -size });
 
   // Animation loop for smooth cursor follow
   const animate = () => {
@@ -21,8 +20,8 @@ export const Cursor: React.FC<CursorProps> = ({ size = 60 }) => {
 
     const currentX = previousPos.current.x;
     const currentY = previousPos.current.y;
-    const targetX = targetPos.current.x - size / 2;
-    const targetY = targetPos.current.y - size / 2;
+    const targetX = position.x - size / 2;
+    const targetY = position.y - size / 2;
 
     const deltaX = (targetX - currentX) * 0.2;
     const deltaY = (targetY - currentY) * 0.2;
@@ -31,23 +30,15 @@ export const Cursor: React.FC<CursorProps> = ({ size = 60 }) => {
     const newY = currentY + deltaY;
 
     previousPos.current = { x: newX, y: newY };
-    cursorRef.current.style.transform = `translate3d(${newX}px, ${newY}px, 0)`;
+    cursorRef.current.style.transform = `translate(${newX}px, ${newY}px)`;
 
     requestRef.current = requestAnimationFrame(animate);
   };
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Enable only on devices with a fine pointer (desktop mouse)
-    const mediaQuery = window.matchMedia("(pointer: fine)");
-    if (!mediaQuery.matches) return;
-
-    setHasMouse(true);
-
     const handleMouseMove = (e: MouseEvent) => {
       setVisible(true);
-      targetPos.current = { x: e.clientX, y: e.clientY };
+      setPosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseEnter = () => {
@@ -73,14 +64,12 @@ export const Cursor: React.FC<CursorProps> = ({ size = 60 }) => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
       document.body.style.cursor = "auto"; // restore native cursor
     };
-  }, []);
-
-  if (!hasMouse) return null;
+  }, [animate]);
 
   return (
     <div
       ref={cursorRef}
-      className="fixed pointer-events-none rounded-full bg-white mix-blend-difference z-[9999] transition-opacity duration-300"
+      className="fixed pointer-events-none rounded-full bg-white mix-blend-difference z-50 transition-opacity duration-300"
       style={{
         width: size,
         height: size,
