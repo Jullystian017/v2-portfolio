@@ -36,6 +36,7 @@ import Cursor from "@/components/ui/inverted-cursor";
 import KineticServicesList from "@/components/ui/kinetic-team-hybrid";
 import { CinematicFooter } from "@/components/ui/motion-footer";
 import ProjectsTimeline from "@/components/ui/release-time-line";
+import Preloader from "@/components/ui/preloader";
 
 // Custom Premium SVG Brand Icons matching the exact Nyro design
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -70,6 +71,7 @@ interface Project {
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [preloaderFinished, setPreloaderFinished] = useState(false);
   const aboutContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Rotating words in the Hero section (with duplicate at end for infinite upward scroll)
@@ -96,6 +98,8 @@ export default function Home() {
   }, [currentWordIdx]);
   // Hero Section Intro Animations (No specific scope needed since it targets unique classes)
   useGSAP(() => {
+    if (!preloaderFinished) return;
+
     // Hero Text Intro
     gsap.fromTo(
       ".hero-text-reveal",
@@ -109,7 +113,7 @@ export default function Home() {
       { opacity: 0.1, scale: 0.35 },
       { opacity: 1, scale: 1, duration: 3.2, ease: "power3.out", stagger: 0.2 }
     );
-  }, []);
+  }, [preloaderFinished]);
 
   // GSAP scroll-reveal animation for the about section words
   useGSAP(() => {
@@ -147,6 +151,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#050506] text-[#f3f4f6] font-sans selection:bg-teal-500/30 selection:text-teal-200 relative overflow-x-hidden flex flex-col">
+      {!preloaderFinished && (
+        <Preloader onComplete={() => setPreloaderFinished(true)} />
+      )}
       <Cursor />
 
       {/* FLOW ART - wraps only Hero and About */}
